@@ -1,0 +1,53 @@
+{
+  "name": "structured-headers-rfc8941",
+  "version": "0.0.0",
+  "description": "RFC 8941 Structured Field Values for HTTP - Complete JavaScript implementation",
+  "main": "index.mjs",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/test.mjs",
+    "test:watch": "node --test --watch test/test.mjs",
+    "test:coverage": "node --test --experimental-test-coverage test/test.mjs",
+    "build": "node scripts/build.mjs",
+    "lint": "eslint *.mjs test/*.mjs",
+    "format": "prettier --write *.mjs test/*.mjs"
+  },
+  "keywords": [
+    "http",
+    "headers",
+    "structured-fields",
+    "rfc8941",
+    "parsing",
+    "serialization",
+    "web-standards"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/structured-headers-rfc8941.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/structured-headers-rfc8941/issues"
+  },
+  "homepage": "https://github.com/yourusername/structured-headers-rfc8941#readme",
+  "files": [
+    "index.mjs",
+    "index.cjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0"
+  }
+}
