@@ -458,7 +458,7 @@ const result = HTTPFields.parse('a=1, b="hello";q=0.9, c=?1', "dictionary");
 }
 ```
 
-**@badgateway Implementation:**
+**badgateway Implementation:**
 
 ```javascript
 import { parseDictionary } from "structured-headers";
@@ -481,7 +481,7 @@ const bQuality = result.b.parameters.q; // 0.9
 const cValue = result.c.value; // true
 ```
 
-**Accessing Values - @badgateway:**
+**Accessing Values - badgateway:**
 
 ```javascript
 const [aValue] = result.get("a"); // 1
@@ -506,7 +506,7 @@ const header = HTTPFields.serialize(data, "dictionary");
 // Result: "accept=application/json;q=0.9, cache"
 ```
 
-**@badgateway Implementation:**
+**badgateway Implementation:**
 
 ```javascript
 const data = new Map([
@@ -533,10 +533,10 @@ const examples = {
 };
 ```
 
-**Data Types - @badgateway:**
+**Data Types - badgateway:**
 
 ```javascript
-// Different types with @badgateway
+// Different types with badgateway
 const examples = new Map([
   ["number", [42, new Map()]],
   ["decimal", [3.14, new Map()]],
@@ -560,7 +560,7 @@ try {
 }
 ```
 
-**@badgateway Implementation:**
+**badgateway Implementation:**
 
 ```javascript
 try {
@@ -593,7 +593,7 @@ class StructuredHeaders {
 }
 ```
 
-**@badgateway Implementation:**
+**badgateway Implementation:**
 
 ```javascript
 import { parseDictionary, serializeDictionary } from "structured-headers";
@@ -617,7 +617,7 @@ class StructuredHeaders {
 
 ## Example 7: Advanced Features
 
-**@badgateway Unique Features:**
+**badgateway Unique Features:**
 
 ```javascript
 // Timestamps (RFC 9651)
@@ -649,21 +649,21 @@ const iotDevice = {
 **Bundle Size Comparison:**
 
 - **Our Implementation:** ~15KB minified
-- **@badgateway:** ~25KB minified (includes TypeScript overhead)
+- **badgateway:** ~25KB minified (includes TypeScript overhead)
 
 **Memory Usage:**
 
 - **Our Implementation:** Lower (plain JavaScript objects)
-- **@badgateway:** Higher (Map objects and tuples)
+- **badgateway:** Higher (Map objects and tuples)
 
 **Development Experience:**
 
 - **Our Implementation:** Simpler mental model, extensive examples
-- **@badgateway:** TypeScript support, maximum RFC compliance
+- **badgateway:** TypeScript support, maximum RFC compliance
 
 ## Example 9: Migration Between Libraries
 
-**Converting @badgateway to Our Format:**
+**Converting badgateway to Our Format:**
 
 ```javascript
 function convertFromBadgateway(badgatewayResult) {
@@ -679,7 +679,7 @@ function convertFromBadgateway(badgatewayResult) {
 }
 ```
 
-**Converting Our Format to @badgateway:**
+**Converting Our Format to badgateway:**
 
 ```javascript
 function convertToBadgateway(ourResult) {
@@ -704,7 +704,7 @@ function convertToBadgateway(ourResult) {
 - 🎨 **Creative use cases** (IoT, AI, blockchain)
 - 📖 **Rich documentation** and examples
 
-**Choose @badgateway for:**
+**Choose badgateway for:**
 
 - 🏢 **Production systems** requiring maximum compliance
 - 📊 **TypeScript projects** with strong typing

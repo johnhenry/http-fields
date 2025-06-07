@@ -25,7 +25,7 @@ console.log("```json");
 console.log(JSON.stringify(ourResult, null, 2));
 console.log("```\n");
 
-console.log("**@badgateway Implementation:**");
+console.log("**badgateway Implementation:**");
 console.log("```javascript");
 console.log('import { parseDictionary } from "structured-headers";');
 console.log("const result = parseDictionary('" + headerValue + "');");
@@ -47,7 +47,7 @@ console.log("const bQuality = result.b.parameters.q;     // 0.9");
 console.log("const cValue = result.c.value;              // true");
 console.log("```\n");
 
-console.log("**Accessing Values - @badgateway:**");
+console.log("**Accessing Values - badgateway:**");
 console.log("```javascript");
 console.log('const [aValue] = result.get("a");           // 1');
 console.log('const [bValue, bParams] = result.get("b");   // ["hello", Map]');
@@ -71,7 +71,7 @@ console.log('const header = HTTPFields.serialize(data, "dictionary");');
 console.log('// Result: "accept=application/json;q=0.9, cache"');
 console.log("```\n");
 
-console.log("**@badgateway Implementation:**");
+console.log("**badgateway Implementation:**");
 console.log("```javascript");
 console.log("const data = new Map([");
 console.log('  ["accept", ["application/json", new Map([["q", 0.9]])]],');
@@ -99,9 +99,9 @@ console.log("  boolean: { value: true, parameters: {} }");
 console.log("};");
 console.log("```\n");
 
-console.log("**Data Types - @badgateway:**");
+console.log("**Data Types - badgateway:**");
 console.log("```javascript");
-console.log("// Different types with @badgateway");
+console.log("// Different types with badgateway");
 console.log("const examples = new Map([");
 console.log('  ["number", [42, new Map()]],');
 console.log('  ["decimal", [3.14, new Map()]],');
@@ -125,7 +125,7 @@ console.log("  // Handle gracefully - treat as if header not present");
 console.log("}");
 console.log("```\n");
 
-console.log("**@badgateway Implementation:**");
+console.log("**badgateway Implementation:**");
 console.log("```javascript");
 console.log("try {");
 console.log('  const result = parseList("invalid[");');
@@ -157,7 +157,7 @@ console.log("  }");
 console.log("}");
 console.log("```\n");
 
-console.log("**@badgateway Implementation:**");
+console.log("**badgateway Implementation:**");
 console.log("```javascript");
 console.log(
   'import { parseDictionary, serializeDictionary } from "structured-headers";'
@@ -183,7 +183,7 @@ console.log("```\n");
 // Example 7: Advanced Features
 console.log("## Example 7: Advanced Features\n");
 
-console.log("**@badgateway Unique Features:**");
+console.log("**badgateway Unique Features:**");
 console.log("```javascript");
 console.log("// Timestamps (RFC 9651)");
 console.log('parseItem("@1640995200");  // Returns Date object');
@@ -220,23 +220,23 @@ console.log("## Example 8: Bundle Size and Performance\n");
 console.log("**Bundle Size Comparison:**");
 console.log("- **Our Implementation:** ~15KB minified");
 console.log(
-  "- **@badgateway:** ~25KB minified (includes TypeScript overhead)\n"
+  "- **badgateway:** ~25KB minified (includes TypeScript overhead)\n"
 );
 
 console.log("**Memory Usage:**");
 console.log("- **Our Implementation:** Lower (plain JavaScript objects)");
-console.log("- **@badgateway:** Higher (Map objects and tuples)\n");
+console.log("- **badgateway:** Higher (Map objects and tuples)\n");
 
 console.log("**Development Experience:**");
 console.log(
   "- **Our Implementation:** Simpler mental model, extensive examples"
 );
-console.log("- **@badgateway:** TypeScript support, maximum RFC compliance\n");
+console.log("- **badgateway:** TypeScript support, maximum RFC compliance\n");
 
 // Example 9: Migration Between Libraries
 console.log("## Example 9: Migration Between Libraries\n");
 
-console.log("**Converting @badgateway to Our Format:**");
+console.log("**Converting badgateway to Our Format:**");
 console.log("```javascript");
 console.log("function convertFromBadgateway(badgatewayResult) {");
 console.log("  const result = {};");
@@ -251,7 +251,7 @@ console.log("  return result;");
 console.log("}");
 console.log("```\n");
 
-console.log("**Converting Our Format to @badgateway:**");
+console.log("**Converting Our Format to badgateway:**");
 console.log("```javascript");
 console.log("function convertToBadgateway(ourResult) {");
 console.log("  const result = new Map();");
@@ -275,7 +275,7 @@ console.log("- 🍪 **Cookie applications** with structured data");
 console.log("- 🎨 **Creative use cases** (IoT, AI, blockchain)");
 console.log("- 📖 **Rich documentation** and examples\n");
 
-console.log("**Choose @badgateway for:**");
+console.log("**Choose badgateway for:**");
 console.log("- 🏢 **Production systems** requiring maximum compliance");
 console.log("- 📊 **TypeScript projects** with strong typing");
 console.log("- ⏰ **Timestamp support** and advanced features");
