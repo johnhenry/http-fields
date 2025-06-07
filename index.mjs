@@ -302,13 +302,15 @@ const StructuredFields = (() => {
             if (value < -999999999999999 || value > 999999999999999) {
                 throw new Error('Integer out of range');
             }
-            return value;
+            // Normalize -0 to 0 as per RFC 8941
+            return value === 0 ? 0 : value;
         } else {
             const value = sign * parseFloat(num);
             if (Math.abs(value) >= 1000000000000) {
                 throw new Error('Decimal out of range');
             }
-            return value;
+            // Normalize -0 to 0 as per RFC 8941
+            return value === 0 ? 0 : value;
         }
     };
 
@@ -590,7 +592,13 @@ const StructuredFields = (() => {
                 case 'dictionary':
                     return parseDictionary(fieldValue);
                 case 'item':
-                    const [value, params] = parseItem(Array.from(fieldValue));
+                    const input = Array.from(fieldValue);
+                    skipSP(input); // Skip leading spaces (not tabs for items)
+                    const [value, params] = parseItem(input);
+                    skipSP(input); // Skip trailing spaces (not tabs for items)
+                    if (input.length > 0) {
+                        throw new Error(`Unexpected characters at end: ${input.join('')}`);
+                    }
                     return { value, parameters: params };
                 default:
                     throw new Error('Field type must be "list", "dictionary", or "item"');

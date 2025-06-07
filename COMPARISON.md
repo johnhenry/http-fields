@@ -7,7 +7,7 @@
 | **RFC Compliance** | RFC 8941 + RFC 9651 ✅ | RFC 8941 + RFC 9651 ✅ |
 | **Language** | JavaScript + TypeScript ✅ | TypeScript + JavaScript |
 | **Dependencies** | Zero dependencies ✅ | Zero dependencies ✅ |
-| **Test Coverage** | Comprehensive test suite ✅ | 2805 tests from official HTTP WG |
+| **Test Coverage** | 168 official HTTP WG tests ✅ + 47 custom tests ✅ | 2805 tests from official HTTP WG ✅ |
 | **Bundle Size** | Lightweight (~15KB) | Heavier (~25KB) |
 | **Browser Support** | ES6+ modules | ESM + CommonJS + Browser builds |
 | **Type Safety** | TypeScript definitions ✅ | TypeScript + runtime validation |

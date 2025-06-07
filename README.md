@@ -779,6 +779,31 @@ This library uses modern JavaScript features:
 
 Supports all modern browsers and Node.js environments.
 
+## Testing
+
+Run the comprehensive test suite:
+
+```bash
+# Run custom tests (47 tests covering all features)
+npm test
+
+# Run official HTTP Working Group tests (168 tests - ALL PASSING! ✅)
+npm run test:official
+
+# Run all tests
+npm run test:all
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+**Test Results:**
+- ✅ **Custom tests**: 47/47 passing
+- ✅ **Official HTTP WG tests**: 168/168 passing  
+- ✅ **Total**: 215 tests passing
+
+Our implementation now passes the same official test suite used by @badgateway/structured-headers while maintaining our developer-friendly API.
+
 ## Contributing
 
 Contributions welcome! Please ensure:

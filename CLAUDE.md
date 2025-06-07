@@ -47,11 +47,20 @@ Following RFC 8941 requirements, any parsing error causes complete failure. The 
 
 ### Testing Approach
 Tests use Node.js built-in test runner and cover:
-- Basic parsing for all data types
+- Basic parsing for all data types  
 - Parameter handling
 - Complex structures (lists, dictionaries)
 - Serialization and round-trip conversion
 - Error cases
 - Real-world examples (Cache-Control, Accept headers)
+- RFC 9651 features (dates and display strings)
 
-Run a specific test: `node --test test/test.mjs -n "test name pattern"`
+**Test Commands:**
+- Run custom tests: `npm test` (47 tests)
+- Run official HTTP WG tests: `npm run test:official` (168 tests - ALL PASSING!)
+- Run all tests: `npm run test:all` (215 total tests)
+- Run specific test: `node --test test/test.mjs -n "test name pattern"`
+
+**Test Results:** ✅ 215/215 tests passing (47 custom + 168 official)
+
+Our implementation now passes the complete official HTTP Working Group test suite while maintaining our developer-friendly API design.

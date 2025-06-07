@@ -11,12 +11,15 @@
     }
   },
   "scripts": {
-    "test": "node --test test/test.mjs",
-    "test:watch": "node --test --watch test/test.mjs",
-    "test:coverage": "node --test --experimental-test-coverage test/test.mjs",
+    "test": "node --test test/*.mjs",
+    "test:basic": "node --test test/test.mjs",
+    "test:official": "node --test test/official-tests.mjs",
+    "test:watch": "node --test --watch test/*.mjs",
+    "test:coverage": "node --test --experimental-test-coverage test/*.mjs",
     "build": "node scripts/build.mjs",
     "lint": "eslint *.mjs test/*.mjs",
-    "format": "prettier --write *.mjs test/*.mjs"
+    "format": "prettier --write *.mjs test/*.mjs",
+    "example": "node examples/index.mjs"
   },
   "keywords": [
     "http",
