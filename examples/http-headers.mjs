@@ -1,4 +1,4 @@
-import HTTPFields from "../index.mjs";
+import * as HTTPFields from "../index.mjs";
 
 console.log("# RFC 8941 Structured Fields - HTTP Headers Examples\n");
 

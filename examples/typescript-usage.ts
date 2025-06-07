@@ -2,7 +2,7 @@
 // Note: This file demonstrates type usage but isn't runnable directly
 // To use in a real project, compile with TypeScript
 
-import HTTPFields from "../index.mjs";
+import * as HTTPFields from "../index.mjs";
 import type {
   Item,
   List,

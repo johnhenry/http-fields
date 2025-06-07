@@ -433,7 +433,7 @@ method=(get post), format=json;version=2, flags=(a b c);test=?1
 **Our Implementation:**
 
 ```javascript
-import HTTPFields from "http-fields";
+import * as HTTPFields from "http-fields";
 const result = HTTPFields.parse('a=1, b="hello";q=0.9, c=?1', "dictionary");
 ```
 
@@ -857,7 +857,7 @@ class StructuredCookies {
 **Express.js Middleware:**
 
 ```javascript
-import HTTPFields from "http-fields";
+import * as HTTPFields from "http-fields";
 
 // Middleware to parse structured cookies
 function parseStructuredCookies(req, res, next) {

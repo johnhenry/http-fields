@@ -1,4 +1,4 @@
-import HTTPFields from "../index.mjs";
+import * as HTTPFields from "../index.mjs";
 
 console.log("RFC 9651 - Dates and Display Strings Examples");
 console.log("=============================================\n");

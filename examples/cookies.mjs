@@ -1,4 +1,4 @@
-import HTTPFields from "../index.mjs";
+import * as HTTPFields from "../index.mjs";
 
 console.log("# Using RFC 8941 Structured Fields with Cookies\n");
 

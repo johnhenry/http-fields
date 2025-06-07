@@ -1,4 +1,4 @@
-import HTTPFields from "../index.mjs";
+import * as HTTPFields from "../index.mjs";
 
 console.log(
   "# Side-by-Side Comparison: Our Implementation vs badgateway/structured-headers\n"

@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import assert from "node:assert";
-import HTTPFields from "../index.mjs";
+import * as HTTPFields from "../index.mjs";
 
 describe("RFC 8941 Structured Fields", () => {
   describe("Basic parsing", () => {

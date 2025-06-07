@@ -30,7 +30,7 @@ npm install http-fields
 Or include directly in your project:
 
 ```javascript
-import HTTPFields from "./index.mjs";
+import * as HTTPFields from "./index.mjs";
 ```
 
 ## Quick Start
@@ -38,7 +38,7 @@ import HTTPFields from "./index.mjs";
 ### JavaScript
 
 ```javascript
-import HTTPFields from "http-fields";
+import * as HTTPFields from "http-fields";
 
 // Parse a list
 const list = HTTPFields.parse("sugar, tea, rum", "list");
@@ -57,7 +57,7 @@ console.log(serialized); // "sugar, tea, rum"
 ### TypeScript
 
 ```typescript
-import HTTPFields from "http-fields";
+import * as HTTPFields from "http-fields";
 import type { List, Dictionary, Item } from "http-fields/types";
 
 // Parse with type safety
@@ -496,7 +496,7 @@ createApiRequest("/api/users", {
 
 ```javascript
 import express from "express";
-import HTTPFields from "http-fields";
+import * as HTTPFields from "http-fields";
 
 const app = express();
 

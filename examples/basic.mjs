@@ -1,4 +1,4 @@
-import HTTPFields from "../index.mjs";
+import * as HTTPFields from "../index.mjs";
 
 // Note: This library now includes TypeScript support!
 // See typescript-usage.ts for TypeScript-specific examples
