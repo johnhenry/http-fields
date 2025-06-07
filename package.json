@@ -41,12 +41,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/http-fields.git"
+    "url": "git+https://github.com/johnhenryusername/http-fields.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/http-fields/issues"
+    "url": "https://github.com/johnhenryusername/http-fields/issues"
   },
-  "homepage": "https://github.com/yourusername/http-fields#readme",
+  "homepage": "https://github.com/johnhenryusername/http-fields#readme",
   "files": [
     "index.mjs",
     "index.cjs",
