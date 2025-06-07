@@ -114,9 +114,13 @@ export interface HTTPFieldsAPI {
   displayString(unicodeValue: string): DisplayStringValue;
 }
 
-// Default export
-declare const HTTPFields: HTTPFieldsAPI;
-export default HTTPFields;
+// Named exports for the main API functions
+export declare const parse: HTTPFieldsAPI['parse'];
+export declare const serialize: HTTPFieldsAPI['serialize']; 
+export declare const token: HTTPFieldsAPI['token'];
+export declare const binary: HTTPFieldsAPI['binary'];
+export declare const date: HTTPFieldsAPI['date'];
+export declare const displayString: HTTPFieldsAPI['displayString'];
 
 // Utility types for more advanced usage
 

@@ -44,6 +44,8 @@
 **http-fields - Developer-Friendly:**
 
 ```javascript
+import * as HTTPFields from "http-fields";
+
 // Simple, intuitive API
 const data = HTTPFields.parse("a=1, b=2", "dictionary");
 const header = HTTPFields.serialize(data, "dictionary");
@@ -147,6 +149,8 @@ const token = "application/json"; // Just a string
 ### **From @badgateway to Ours:**
 
 ```javascript
+import * as HTTPFields from "http-fields";
+
 // @badgateway format
 const [value, params] = parseItem("42;q=0.9");
 
