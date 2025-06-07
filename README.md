@@ -1,6 +1,6 @@
-# RFC 8941 & RFC 9651 Structured Fields Library
+# http-fields
 
-A complete JavaScript/TypeScript implementation of [RFC 8941: Structured Field Values for HTTP](https://www.rfc-editor.org/rfc/rfc8941.html) and [RFC 9651: Structured Field Values for HTTP Retrofit](https://www.rfc-editor.org/rfc/rfc9651.html), providing bidirectional translation between structured header strings and JSON with full TypeScript support.
+A modern JavaScript library for parsing and serializing HTTP Structured Field Values ([RFC 8941](https://www.rfc-editor.org/rfc/rfc8941.html) & [RFC 9651](https://www.rfc-editor.org/rfc/rfc9651.html)). Provides bidirectional translation between structured header strings and JSON with full TypeScript support.
 
 ## Overview
 
@@ -22,23 +22,24 @@ This library implements the complete RFC 8941 and RFC 9651 specifications with s
 ## Installation
 
 ```bash
-npm install structured-fields-rfc8941
+npm install http-fields
 ```
 
 Or include directly in your project:
 
 ```javascript
-import StructuredFields from './structured-fields.mjs';
+import HTTPFields from "./index.mjs";
 ```
 
 ## Quick Start
 
 ### JavaScript
+
 ```javascript
-import StructuredFields from 'structured-fields-rfc8941';
+import HTTPFields from "http-fields";
 
 // Parse a list
-const list = StructuredFields.parse('sugar, tea, rum', 'list');
+const list = HTTPFields.parse("sugar, tea, rum", "list");
 console.log(list);
 // Output: [
 //   { value: { type: 'token', value: 'sugar' }, parameters: {} },
@@ -47,47 +48,48 @@ console.log(list);
 // ]
 
 // Serialize back to string
-const serialized = StructuredFields.serialize(list, 'list');
+const serialized = HTTPFields.serialize(list, "list");
 console.log(serialized); // "sugar, tea, rum"
 ```
 
 ### TypeScript
+
 ```typescript
-import StructuredFields from 'structured-fields-rfc8941';
-import type { List, Dictionary, Item } from 'structured-fields-rfc8941/types';
+import HTTPFields from "http-fields";
+import type { List, Dictionary, Item } from "http-fields/types";
 
 // Parse with type safety
-const list: List = StructuredFields.parse('sugar, tea, rum', 'list');
-const dict: Dictionary = StructuredFields.parse('a=1, b=2', 'dictionary');
-const item: Item = StructuredFields.parse('@1672531200', 'item');
+const list: List = HTTPFields.parse("sugar, tea, rum", "list");
+const dict: Dictionary = HTTPFields.parse("a=1, b=2", "dictionary");
+const item: Item = HTTPFields.parse("@1672531200", "item");
 
 // RFC 9651 features
-const date = StructuredFields.date(new Date());
-const displayStr = StructuredFields.displayString('Hello 世界');
+const date = HTTPFields.date(new Date());
+const displayStr = HTTPFields.displayString("Hello 世界");
 ```
 
 ## Data Types
 
 ### Basic Types
 
-| Type | Description | Example | JSON Representation |
-|------|-------------|---------|-------------------|
-| **Integer** | Signed integer (-999,999,999,999,999 to 999,999,999,999,999) | `42` | `42` |
-| **Decimal** | Decimal number (max 12 integer digits, 3 fractional) | `3.14` | `3.14` |
-| **String** | Quoted ASCII string | `"hello world"` | `"hello world"` |
-| **Token** | Unquoted text identifier | `application/json` | `{ type: 'token', value: 'application/json' }` |
-| **Byte Sequence** | Base64-encoded binary data | `:SGVsbG8=:` | `{ type: 'binary', value: 'SGVsbG8=', decoded: 'Hello' }` |
-| **Boolean** | True or false value | `?1` or `?0` | `true` or `false` |
-| **Date** (RFC 9651) | Unix timestamp with @ prefix | `@1672531200` | `{ type: 'date', value: Date }` |
-| **Display String** (RFC 9651) | Unicode string with % prefix | `%"Hello 世界"` | `{ type: 'displaystring', value: 'Hello 世界' }` |
+| Type                          | Description                                                  | Example            | JSON Representation                                       |
+| ----------------------------- | ------------------------------------------------------------ | ------------------ | --------------------------------------------------------- |
+| **Integer**                   | Signed integer (-999,999,999,999,999 to 999,999,999,999,999) | `42`               | `42`                                                      |
+| **Decimal**                   | Decimal number (max 12 integer digits, 3 fractional)         | `3.14`             | `3.14`                                                    |
+| **String**                    | Quoted ASCII string                                          | `"hello world"`    | `"hello world"`                                           |
+| **Token**                     | Unquoted text identifier                                     | `application/json` | `{ type: 'token', value: 'application/json' }`            |
+| **Byte Sequence**             | Base64-encoded binary data                                   | `:SGVsbG8=:`       | `{ type: 'binary', value: 'SGVsbG8=', decoded: 'Hello' }` |
+| **Boolean**                   | True or false value                                          | `?1` or `?0`       | `true` or `false`                                         |
+| **Date** (RFC 9651)           | Unix timestamp with @ prefix                                 | `@1672531200`      | `{ type: 'date', value: Date }`                           |
+| **Display String** (RFC 9651) | Unicode string with % prefix                                 | `%"Hello 世界"`    | `{ type: 'displaystring', value: 'Hello 世界' }`          |
 
 ### Structured Types
 
-| Type | Description | Example |
-|------|-------------|---------|
-| **List** | Array of items or inner lists | `a, b, (c d)` |
-| **Dictionary** | Key-value pairs | `a=1, b=2, c` |
-| **Inner List** | Parenthesized list of items | `(a b c)` |
+| Type           | Description                         | Example                |
+| -------------- | ----------------------------------- | ---------------------- |
+| **List**       | Array of items or inner lists       | `a, b, (c d)`          |
+| **Dictionary** | Key-value pairs                     | `a=1, b=2, c`          |
+| **Inner List** | Parenthesized list of items         | `(a b c)`              |
 | **Parameters** | Semicolon-separated key-value pairs | `;charset=utf-8;q=0.9` |
 
 ## API Reference
@@ -99,14 +101,16 @@ const displayStr = StructuredFields.displayString('Hello 世界');
 Parses a structured field string into a JSON representation.
 
 **Parameters:**
+
 - `fieldValue` (string): The HTTP field value to parse
 - `fieldType` (string): One of `'list'`, `'dictionary'`, or `'item'`
 
 **Returns:** Parsed structure as JSON
 
 **Example:**
+
 ```javascript
-const result = StructuredFields.parse('a=1, b=2;x=y', 'dictionary');
+const result = HTTPFields.parse("a=1, b=2;x=y", "dictionary");
 ```
 
 #### `serialize(data, fieldType)`
@@ -114,14 +118,16 @@ const result = StructuredFields.parse('a=1, b=2;x=y', 'dictionary');
 Serializes a JSON structure back to a structured field string.
 
 **Parameters:**
+
 - `data` (any): The data structure to serialize
 - `fieldType` (string): One of `'list'`, `'dictionary'`, or `'item'`
 
 **Returns:** Serialized field value string
 
 **Example:**
+
 ```javascript
-const fieldValue = StructuredFields.serialize(data, 'dictionary');
+const fieldValue = HTTPFields.serialize(data, "dictionary");
 ```
 
 ### Helper Methods
@@ -131,13 +137,15 @@ const fieldValue = StructuredFields.serialize(data, 'dictionary');
 Creates a token object for use in structured data.
 
 **Parameters:**
+
 - `value` (string): The token string
 
 **Returns:** Token object `{ type: 'token', value: string }`
 
 **Example:**
+
 ```javascript
-const tokenObj = StructuredFields.token('application/json');
+const tokenObj = HTTPFields.token("application/json");
 ```
 
 #### `binary(base64Value)`
@@ -145,13 +153,15 @@ const tokenObj = StructuredFields.token('application/json');
 Creates a binary object for use in structured data.
 
 **Parameters:**
+
 - `base64Value` (string): Base64-encoded string
 
 **Returns:** Binary object `{ type: 'binary', value: string }`
 
 **Example:**
+
 ```javascript
-const binaryObj = StructuredFields.binary('SGVsbG8=');
+const binaryObj = HTTPFields.binary("SGVsbG8=");
 ```
 
 #### `date(dateValue)` - RFC 9651
@@ -159,13 +169,15 @@ const binaryObj = StructuredFields.binary('SGVsbG8=');
 Creates a date object for use in structured data.
 
 **Parameters:**
+
 - `dateValue` (Date): JavaScript Date object
 
 **Returns:** Date object `{ type: 'date', value: Date }`
 
 **Example:**
+
 ```javascript
-const dateObj = StructuredFields.date(new Date('2024-01-01'));
+const dateObj = HTTPFields.date(new Date("2024-01-01"));
 // Serializes to: @1704067200
 ```
 
@@ -174,13 +186,15 @@ const dateObj = StructuredFields.date(new Date('2024-01-01'));
 Creates a display string object for Unicode content.
 
 **Parameters:**
+
 - `unicodeValue` (string): Unicode string
 
 **Returns:** Display string object `{ type: 'displaystring', value: string }`
 
 **Example:**
+
 ```javascript
-const displayObj = StructuredFields.displayString('Hello 世界');
+const displayObj = HTTPFields.displayString("Hello 世界");
 // Serializes to: %"Hello %e4%b8%96%e7%95%8c"
 ```
 
@@ -190,24 +204,27 @@ const displayObj = StructuredFields.displayString('Hello 世界');
 
 ```javascript
 // Parse a simple list
-const simpleList = StructuredFields.parse('a, b, c', 'list');
+const simpleList = HTTPFields.parse("a, b, c", "list");
 
 // Parse a list with parameters
-const listWithParams = StructuredFields.parse('a;x=1, b;y=2', 'list');
+const listWithParams = HTTPFields.parse("a;x=1, b;y=2", "list");
 
 // Parse a list with inner lists
-const complexList = StructuredFields.parse('a, (b c), d', 'list');
+const complexList = HTTPFields.parse("a, (b c), d", "list");
 
 // Create and serialize a list
 const listData = [
-    { value: StructuredFields.token('sugar'), parameters: {} },
-    { value: StructuredFields.token('tea'), parameters: { quality: 0.8 } },
-    { value: [
-        { value: StructuredFields.token('milk'), parameters: {} },
-        { value: StructuredFields.token('honey'), parameters: {} }
-    ], parameters: { organic: true } }
+  { value: HTTPFields.token("sugar"), parameters: {} },
+  { value: HTTPFields.token("tea"), parameters: { quality: 0.8 } },
+  {
+    value: [
+      { value: HTTPFields.token("milk"), parameters: {} },
+      { value: HTTPFields.token("honey"), parameters: {} },
+    ],
+    parameters: { organic: true },
+  },
 ];
-const serialized = StructuredFields.serialize(listData, 'list');
+const serialized = HTTPFields.serialize(listData, "list");
 // Result: "sugar, tea;quality=0.8, (milk honey);organic"
 ```
 
@@ -215,53 +232,62 @@ const serialized = StructuredFields.serialize(listData, 'list');
 
 ```javascript
 // Parse a dictionary
-const dict = StructuredFields.parse('cache=max-age, public, max-age=3600', 'dictionary');
+const dict = HTTPFields.parse(
+  "cache=max-age, public, max-age=3600",
+  "dictionary"
+);
 
 // Parse dictionary with various types
-const complexDict = StructuredFields.parse('a=1, b="hello", c=?1, d=(x y)', 'dictionary');
+const complexDict = HTTPFields.parse(
+  'a=1, b="hello", c=?1, d=(x y)',
+  "dictionary"
+);
 
 // Create and serialize a dictionary
 const dictData = {
-    method: { value: StructuredFields.token('GET'), parameters: {} },
-    timeout: { value: 30, parameters: { unit: StructuredFields.token('seconds') } },
-    secure: { value: true, parameters: {} },
-    headers: { 
-        value: [
-            { value: StructuredFields.token('authorization'), parameters: {} },
-            { value: StructuredFields.token('content-type'), parameters: {} }
-        ], 
-        parameters: {} 
-    }
+  method: { value: HTTPFields.token("GET"), parameters: {} },
+  timeout: { value: 30, parameters: { unit: HTTPFields.token("seconds") } },
+  secure: { value: true, parameters: {} },
+  headers: {
+    value: [
+      { value: HTTPFields.token("authorization"), parameters: {} },
+      { value: HTTPFields.token("content-type"), parameters: {} },
+    ],
+    parameters: {},
+  },
 };
-const serialized = StructuredFields.serialize(dictData, 'dictionary');
+const serialized = HTTPFields.serialize(dictData, "dictionary");
 ```
 
 ### Working with Items
 
 ```javascript
 // Parse a simple item
-const item = StructuredFields.parse('42', 'item');
+const item = HTTPFields.parse("42", "item");
 // Result: { value: 42, parameters: {} }
 
 // Parse an item with parameters
-const itemWithParams = StructuredFields.parse('"hello";charset="utf-8";length=5', 'item');
-// Result: { 
-//   value: "hello", 
-//   parameters: { 
-//     charset: "utf-8", 
-//     length: 5 
-//   } 
+const itemWithParams = HTTPFields.parse(
+  '"hello";charset="utf-8";length=5',
+  "item"
+);
+// Result: {
+//   value: "hello",
+//   parameters: {
+//     charset: "utf-8",
+//     length: 5
+//   }
 // }
 
 // Serialize an item
 const itemData = {
-    value: StructuredFields.token('application/json'),
-    parameters: { 
-        charset: StructuredFields.token('utf-8'),
-        boundary: "----WebKitFormBoundary7MA4YWxkTrZu0gW"
-    }
+  value: HTTPFields.token("application/json"),
+  parameters: {
+    charset: HTTPFields.token("utf-8"),
+    boundary: "----WebKitFormBoundary7MA4YWxkTrZu0gW",
+  },
 };
-const serialized = StructuredFields.serialize(itemData, 'item');
+const serialized = HTTPFields.serialize(itemData, "item");
 // Result: 'application/json;charset=utf-8;boundary="----WebKitFormBoundary7MA4YWxkTrZu0gW"'
 ```
 
@@ -269,22 +295,22 @@ const serialized = StructuredFields.serialize(itemData, 'item');
 
 ```javascript
 // Parse binary data
-const binary = StructuredFields.parse(':SGVsbG8gV29ybGQ=:', 'item');
-// Result: { 
-//   value: { 
-//     type: 'binary', 
-//     value: 'SGVsbG8gV29ybGQ=', 
-//     decoded: 'Hello World' 
-//   }, 
-//   parameters: {} 
+const binary = HTTPFields.parse(":SGVsbG8gV29ybGQ=:", "item");
+// Result: {
+//   value: {
+//     type: 'binary',
+//     value: 'SGVsbG8gV29ybGQ=',
+//     decoded: 'Hello World'
+//   },
+//   parameters: {}
 // }
 
 // Create binary data
 const binaryData = {
-    value: StructuredFields.binary(btoa('Hello World')),
-    parameters: { encoding: StructuredFields.token('base64') }
+  value: HTTPFields.binary(btoa("Hello World")),
+  parameters: { encoding: HTTPFields.token("base64") },
 };
-const serialized = StructuredFields.serialize(binaryData, 'item');
+const serialized = HTTPFields.serialize(binaryData, "item");
 // Result: ':SGVsbG8gV29ybGQ=:;encoding=base64'
 ```
 
@@ -292,29 +318,29 @@ const serialized = StructuredFields.serialize(binaryData, 'item');
 
 ```javascript
 // Parse date values
-const dateItem = StructuredFields.parse('@1672531200', 'item');
-// Result: { 
-//   value: { 
-//     type: 'date', 
-//     value: Date(2023-01-01T00:00:00.000Z) 
-//   }, 
-//   parameters: {} 
+const dateItem = HTTPFields.parse("@1672531200", "item");
+// Result: {
+//   value: {
+//     type: 'date',
+//     value: Date(2023-01-01T00:00:00.000Z)
+//   },
+//   parameters: {}
 // }
 
 // Create and serialize dates
 const expiryData = {
-    value: StructuredFields.date(new Date('2025-12-31T23:59:59Z')),
-    parameters: { timezone: StructuredFields.token('UTC') }
+  value: HTTPFields.date(new Date("2025-12-31T23:59:59Z")),
+  parameters: { timezone: HTTPFields.token("UTC") },
 };
-const serialized = StructuredFields.serialize(expiryData, 'item');
+const serialized = HTTPFields.serialize(expiryData, "item");
 // Result: '@1767225599;timezone=UTC'
 
 // Dates in dictionaries
 const timingDict = {
-    start: { value: StructuredFields.date(new Date('2024-01-01')), parameters: {} },
-    end: { value: StructuredFields.date(new Date('2024-12-31')), parameters: {} }
+  start: { value: HTTPFields.date(new Date("2024-01-01")), parameters: {} },
+  end: { value: HTTPFields.date(new Date("2024-12-31")), parameters: {} },
 };
-const serializedDict = StructuredFields.serialize(timingDict, 'dictionary');
+const serializedDict = HTTPFields.serialize(timingDict, "dictionary");
 // Result: 'start=@1704067200, end=@1735689600'
 ```
 
@@ -322,30 +348,30 @@ const serializedDict = StructuredFields.serialize(timingDict, 'dictionary');
 
 ```javascript
 // Parse Unicode display strings
-const displayItem = StructuredFields.parse('%"Hello 世界"', 'item');
-// Result: { 
-//   value: { 
-//     type: 'displaystring', 
-//     value: 'Hello 世界' 
-//   }, 
-//   parameters: {} 
+const displayItem = HTTPFields.parse('%"Hello 世界"', "item");
+// Result: {
+//   value: {
+//     type: 'displaystring',
+//     value: 'Hello 世界'
+//   },
+//   parameters: {}
 // }
 
 // Create and serialize display strings
 const messageData = {
-    value: StructuredFields.displayString('Welcome to Tokyo 東京へようこそ'),
-    parameters: { lang: StructuredFields.token('ja') }
+  value: HTTPFields.displayString("Welcome to Tokyo 東京へようこそ"),
+  parameters: { lang: HTTPFields.token("ja") },
 };
-const serialized = StructuredFields.serialize(messageData, 'item');
+const serialized = HTTPFields.serialize(messageData, "item");
 // Result: '%"Welcome to Tokyo %e6%9d%b1%e4%ba%ac%e3%81%b8%e3%82%88%e3%81%86%e3%81%93%e3%81%9d";lang=ja'
 
 // Mixed content with dates and display strings
 const eventList = [
-    { value: StructuredFields.displayString('Conference 会議'), parameters: {} },
-    { value: StructuredFields.date(new Date('2024-06-15T09:00:00Z')), parameters: {} },
-    { value: StructuredFields.token('tokyo-convention-center'), parameters: {} }
+  { value: HTTPFields.displayString("Conference 会議"), parameters: {} },
+  { value: HTTPFields.date(new Date("2024-06-15T09:00:00Z")), parameters: {} },
+  { value: HTTPFields.token("tokyo-convention-center"), parameters: {} },
 ];
-const serializedList = StructuredFields.serialize(eventList, 'list');
+const serializedList = HTTPFields.serialize(eventList, "list");
 // Result: '%"Conference %e4%bc%9a%e8%ad%b0", @1718442000, tokyo-convention-center'
 ```
 
@@ -358,52 +384,50 @@ The library integrates seamlessly with the standard Web API `Headers` object use
 ```javascript
 // Working with fetch Response headers
 async function handleResponse(response) {
-    const headers = response.headers;
-    
-    // Parse Cache-Control header (dictionary)
-    const cacheControlValue = headers.get('cache-control');
-    if (cacheControlValue) {
-        try {
-            const cacheControl = StructuredFields.parse(cacheControlValue, 'dictionary');
-            console.log('Max age:', cacheControl['max-age']?.value);
-            console.log('Is private:', cacheControl.private?.value === true);
-        } catch (error) {
-            console.warn('Invalid Cache-Control header');
-        }
+  const headers = response.headers;
+
+  // Parse Cache-Control header (dictionary)
+  const cacheControlValue = headers.get("cache-control");
+  if (cacheControlValue) {
+    try {
+      const cacheControl = HTTPFields.parse(cacheControlValue, "dictionary");
+      console.log("Max age:", cacheControl["max-age"]?.value);
+      console.log("Is private:", cacheControl.private?.value === true);
+    } catch (error) {
+      console.warn("Invalid Cache-Control header");
     }
-    
-    // Parse Accept-Language header (list)
-    const acceptLangValue = headers.get('accept-language');
-    if (acceptLangValue) {
-        try {
-            const acceptLang = StructuredFields.parse(acceptLangValue, 'list');
-            const languages = acceptLang.map(item => ({
-                language: item.value.value || item.value,
-                quality: item.parameters.q || 1.0
-            }));
-            console.log('Preferred languages:', languages);
-        } catch (error) {
-            console.warn('Invalid Accept-Language header');
-        }
+  }
+
+  // Parse Accept-Language header (list)
+  const acceptLangValue = headers.get("accept-language");
+  if (acceptLangValue) {
+    try {
+      const acceptLang = HTTPFields.parse(acceptLangValue, "list");
+      const languages = acceptLang.map((item) => ({
+        language: item.value.value || item.value,
+        quality: item.parameters.q || 1.0,
+      }));
+      console.log("Preferred languages:", languages);
+    } catch (error) {
+      console.warn("Invalid Accept-Language header");
     }
-    
-    // Parse custom structured header (item)
-    const apiVersionValue = headers.get('x-api-version');
-    if (apiVersionValue) {
-        try {
-            const apiVersion = StructuredFields.parse(apiVersionValue, 'item');
-            console.log('API Version:', apiVersion.value);
-            console.log('Deprecated:', apiVersion.parameters.deprecated);
-        } catch (error) {
-            console.warn('Invalid X-API-Version header');
-        }
+  }
+
+  // Parse custom structured header (item)
+  const apiVersionValue = headers.get("x-api-version");
+  if (apiVersionValue) {
+    try {
+      const apiVersion = HTTPFields.parse(apiVersionValue, "item");
+      console.log("API Version:", apiVersion.value);
+      console.log("Deprecated:", apiVersion.parameters.deprecated);
+    } catch (error) {
+      console.warn("Invalid X-API-Version header");
     }
+  }
 }
 
 // Usage with fetch
-fetch('/api/data')
-    .then(handleResponse)
-    .catch(console.error);
+fetch("/api/data").then(handleResponse).catch(console.error);
 ```
 
 ### Setting Headers for HTTP Requests
@@ -411,116 +435,121 @@ fetch('/api/data')
 ```javascript
 // Create structured headers for outgoing requests
 function createApiRequest(url, options = {}) {
-    const headers = new Headers(options.headers);
-    
-    // Set Accept header (list with quality values)
-    const acceptData = [
-        { 
-            value: StructuredFields.token('application/json'), 
-            parameters: { q: 0.9 } 
-        },
-        { 
-            value: StructuredFields.token('application/xml'), 
-            parameters: { q: 0.8 } 
-        },
-        { 
-            value: StructuredFields.token('*/*'), 
-            parameters: { q: 0.1 } 
-        }
-    ];
-    headers.set('accept', StructuredFields.serialize(acceptData, 'list'));
-    
-    // Set custom API preferences (dictionary)
-    const preferencesData = {
-        version: { value: 2, parameters: {} },
-        format: { value: StructuredFields.token('compact'), parameters: {} },
-        'include-metadata': { value: true, parameters: {} }
-    };
-    headers.set('x-api-preferences', StructuredFields.serialize(preferencesData, 'dictionary'));
-    
-    // Set client info (item with parameters)
-    const clientInfoData = {
-        value: StructuredFields.token('MyApp'),
-        parameters: {
-            version: '1.2.3',
-            platform: StructuredFields.token('web')
-        }
-    };
-    headers.set('x-client-info', StructuredFields.serialize(clientInfoData, 'item'));
-    
-    return fetch(url, {
-        ...options,
-        headers
-    });
+  const headers = new Headers(options.headers);
+
+  // Set Accept header (list with quality values)
+  const acceptData = [
+    {
+      value: HTTPFields.token("application/json"),
+      parameters: { q: 0.9 },
+    },
+    {
+      value: HTTPFields.token("application/xml"),
+      parameters: { q: 0.8 },
+    },
+    {
+      value: HTTPFields.token("*/*"),
+      parameters: { q: 0.1 },
+    },
+  ];
+  headers.set("accept", HTTPFields.serialize(acceptData, "list"));
+
+  // Set custom API preferences (dictionary)
+  const preferencesData = {
+    version: { value: 2, parameters: {} },
+    format: { value: HTTPFields.token("compact"), parameters: {} },
+    "include-metadata": { value: true, parameters: {} },
+  };
+  headers.set(
+    "x-api-preferences",
+    HTTPFields.serialize(preferencesData, "dictionary")
+  );
+
+  // Set client info (item with parameters)
+  const clientInfoData = {
+    value: HTTPFields.token("MyApp"),
+    parameters: {
+      version: "1.2.3",
+      platform: HTTPFields.token("web"),
+    },
+  };
+  headers.set("x-client-info", HTTPFields.serialize(clientInfoData, "item"));
+
+  return fetch(url, {
+    ...options,
+    headers,
+  });
 }
 
 // Usage
-createApiRequest('/api/users', {
-    method: 'GET',
-    headers: {
-        'authorization': 'Bearer token123'
-    }
+createApiRequest("/api/users", {
+  method: "GET",
+  headers: {
+    authorization: "Bearer token123",
+  },
 });
 ```
 
 ### Express.js Server Integration
 
 ```javascript
-import express from 'express';
-import StructuredFields from 'structured-fields-rfc8941';
+import express from "express";
+import HTTPFields from "http-fields";
 
 const app = express();
 
 // Middleware to parse structured headers
 app.use((req, res, next) => {
-    // Parse client capabilities (list)
-    const capabilities = req.headers['x-client-capabilities'];
-    if (capabilities) {
-        try {
-            req.clientCapabilities = StructuredFields.parse(capabilities, 'list')
-                .map(item => item.value.value || item.value);
-        } catch (error) {
-            req.clientCapabilities = [];
-        }
+  // Parse client capabilities (list)
+  const capabilities = req.headers["x-client-capabilities"];
+  if (capabilities) {
+    try {
+      req.clientCapabilities = HTTPFields.parse(capabilities, "list").map(
+        (item) => item.value.value || item.value
+      );
+    } catch (error) {
+      req.clientCapabilities = [];
     }
-    
-    // Parse feature flags (dictionary)
-    const featureFlags = req.headers['x-feature-flags'];
-    if (featureFlags) {
-        try {
-            req.featureFlags = StructuredFields.parse(featureFlags, 'dictionary');
-        } catch (error) {
-            req.featureFlags = {};
-        }
+  }
+
+  // Parse feature flags (dictionary)
+  const featureFlags = req.headers["x-feature-flags"];
+  if (featureFlags) {
+    try {
+      req.featureFlags = HTTPFields.parse(featureFlags, "dictionary");
+    } catch (error) {
+      req.featureFlags = {};
     }
-    
-    next();
+  }
+
+  next();
 });
 
 // Route handler using parsed structured headers
-app.get('/api/data', (req, res) => {
-    // Use parsed capabilities
-    const supportsCompression = req.clientCapabilities.includes('gzip');
-    const experimentalFeatures = req.featureFlags['experimental-ui']?.value === true;
-    
-    // Set structured response headers
-    const cacheData = {
-        'max-age': { value: 3600, parameters: {} },
-        'public': { value: true, parameters: {} }
-    };
-    res.set('cache-control', StructuredFields.serialize(cacheData, 'dictionary'));
-    
-    // Set API metadata (item)
-    const metadataData = {
-        value: StructuredFields.token('v2'),
-        parameters: {
-            'rate-limit': 1000,
-            'experimental': experimentalFeatures
-        }
-    };
-    res.set('x-api-metadata', StructuredFields.serialize(metadataData, 'item'));
-    
-    res.json({ data: 'response' });
+app.get("/api/data", (req, res) => {
+  // Use parsed capabilities
+  const supportsCompression = req.clientCapabilities.includes("gzip");
+  const experimentalFeatures =
+    req.featureFlags["experimental-ui"]?.value === true;
+
+  // Set structured response headers
+  const cacheData = {
+    "max-age": { value: 3600, parameters: {} },
+    public: { value: true, parameters: {} },
+  };
+  res.set("cache-control", HTTPFields.serialize(cacheData, "dictionary"));
+
+  // Set API metadata (item)
+  const metadataData = {
+    value: HTTPFields.token("v2"),
+    parameters: {
+      "rate-limit": 1000,
+      experimental: experimentalFeatures,
+    },
+  };
+  res.set("x-api-metadata", HTTPFields.serialize(metadataData, "item"));
+
+  res.json({ data: "response" });
 });
 ```
 
@@ -528,52 +557,56 @@ app.get('/api/data', (req, res) => {
 
 ```javascript
 // In service worker
-self.addEventListener('fetch', event => {
-    const request = event.request;
-    const headers = request.headers;
-    
-    // Parse client preferences
-    const preferencesValue = headers.get('x-preferences');
-    let preferences = {};
-    
-    if (preferencesValue) {
-        try {
-            preferences = StructuredFields.parse(preferencesValue, 'dictionary');
-        } catch (error) {
-            console.warn('Invalid preferences header');
-        }
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
+  const headers = request.headers;
+
+  // Parse client preferences
+  const preferencesValue = headers.get("x-preferences");
+  let preferences = {};
+
+  if (preferencesValue) {
+    try {
+      preferences = HTTPFields.parse(preferencesValue, "dictionary");
+    } catch (error) {
+      console.warn("Invalid preferences header");
     }
-    
-    // Modify response based on preferences
-    if (preferences.theme?.value === 'dark') {
-        // Serve dark theme assets
-        event.respondWith(
-            fetch('/assets/dark-theme.css')
-        );
-    } else {
-        event.respondWith(fetch(request));
-    }
+  }
+
+  // Modify response based on preferences
+  if (preferences.theme?.value === "dark") {
+    // Serve dark theme assets
+    event.respondWith(fetch("/assets/dark-theme.css"));
+  } else {
+    event.respondWith(fetch(request));
+  }
 });
 
 // Setting headers in service worker
-self.addEventListener('fetch', event => {
-    if (event.request.url.includes('/api/')) {
-        // Add structured headers to API requests
-        const modifiedRequest = new Request(event.request, {
-            headers: new Headers([
-                ...event.request.headers.entries(),
-                ['x-service-worker', StructuredFields.serialize({
-                    value: StructuredFields.token('active'),
-                    parameters: {
-                        version: '1.0',
-                        'cache-strategy': StructuredFields.token('stale-while-revalidate')
-                    }
-                }, 'item')]
-            ])
-        });
-        
-        event.respondWith(fetch(modifiedRequest));
-    }
+self.addEventListener("fetch", (event) => {
+  if (event.request.url.includes("/api/")) {
+    // Add structured headers to API requests
+    const modifiedRequest = new Request(event.request, {
+      headers: new Headers([
+        ...event.request.headers.entries(),
+        [
+          "x-service-worker",
+          HTTPFields.serialize(
+            {
+              value: HTTPFields.token("active"),
+              parameters: {
+                version: "1.0",
+                "cache-strategy": HTTPFields.token("stale-while-revalidate"),
+              },
+            },
+            "item"
+          ),
+        ],
+      ]),
+    });
+
+    event.respondWith(fetch(modifiedRequest));
+  }
 });
 ```
 
@@ -582,69 +615,79 @@ self.addEventListener('fetch', event => {
 ```javascript
 // Utility class for working with structured headers
 class StructuredHeaders {
-    constructor(headers = new Headers()) {
-        this.headers = headers instanceof Headers ? headers : new Headers(headers);
+  constructor(headers = new Headers()) {
+    this.headers = headers instanceof Headers ? headers : new Headers(headers);
+  }
+
+  // Get and parse a structured header
+  getStructured(name, type) {
+    const value = this.headers.get(name);
+    if (!value) return null;
+
+    try {
+      return HTTPFields.parse(value, type);
+    } catch (error) {
+      console.warn(`Invalid structured header ${name}:`, error.message);
+      return null;
     }
-    
-    // Get and parse a structured header
-    getStructured(name, type) {
-        const value = this.headers.get(name);
-        if (!value) return null;
-        
-        try {
-            return StructuredFields.parse(value, type);
-        } catch (error) {
-            console.warn(`Invalid structured header ${name}:`, error.message);
-            return null;
-        }
+  }
+
+  // Set a structured header
+  setStructured(name, data, type) {
+    try {
+      const value = HTTPFields.serialize(data, type);
+      this.headers.set(name, value);
+    } catch (error) {
+      console.error(`Failed to serialize header ${name}:`, error.message);
     }
-    
-    // Set a structured header
-    setStructured(name, data, type) {
-        try {
-            const value = StructuredFields.serialize(data, type);
-            this.headers.set(name, value);
-        } catch (error) {
-            console.error(`Failed to serialize header ${name}:`, error.message);
-        }
-    }
-    
-    // Get the underlying Headers object
-    toHeaders() {
-        return this.headers;
-    }
+  }
+
+  // Get the underlying Headers object
+  toHeaders() {
+    return this.headers;
+  }
 }
 
 // Usage example
 const headers = new StructuredHeaders();
 
 // Set cache control
-headers.setStructured('cache-control', {
-    'max-age': { value: 3600, parameters: {} },
-    'public': { value: true, parameters: {} }
-}, 'dictionary');
+headers.setStructured(
+  "cache-control",
+  {
+    "max-age": { value: 3600, parameters: {} },
+    public: { value: true, parameters: {} },
+  },
+  "dictionary"
+);
 
 // Set accept header
-headers.setStructured('accept', [
-    { value: StructuredFields.token('application/json'), parameters: { q: 0.9 } },
-    { value: StructuredFields.token('text/html'), parameters: { q: 0.8 } }
-], 'list');
+headers.setStructured(
+  "accept",
+  [
+    { value: HTTPFields.token("application/json"), parameters: { q: 0.9 } },
+    { value: HTTPFields.token("text/html"), parameters: { q: 0.8 } },
+  ],
+  "list"
+);
 
 // Use with fetch
-fetch('/api/endpoint', {
-    headers: headers.toHeaders()
+fetch("/api/endpoint", {
+  headers: headers.toHeaders(),
 });
 
 // Parse response headers
-fetch('/api/endpoint')
-    .then(response => {
-        const responseHeaders = new StructuredHeaders(response.headers);
-        const cacheControl = responseHeaders.getStructured('cache-control', 'dictionary');
-        const rateLimit = responseHeaders.getStructured('x-rate-limit', 'item');
-        
-        console.log('Cache max-age:', cacheControl?.['max-age']?.value);
-        console.log('Rate limit:', rateLimit?.value);
-    });
+fetch("/api/endpoint").then((response) => {
+  const responseHeaders = new StructuredHeaders(response.headers);
+  const cacheControl = responseHeaders.getStructured(
+    "cache-control",
+    "dictionary"
+  );
+  const rateLimit = responseHeaders.getStructured("x-rate-limit", "item");
+
+  console.log("Cache max-age:", cacheControl?.["max-age"]?.value);
+  console.log("Rate limit:", rateLimit?.value);
+});
 ```
 
 ## Error Handling
@@ -653,14 +696,15 @@ The library follows RFC 8941's strict error handling requirements. Any parsing e
 
 ```javascript
 try {
-    const result = StructuredFields.parse('invalid[syntax', 'list');
+  const result = HTTPFields.parse("invalid[syntax", "list");
 } catch (error) {
-    console.error('Parsing failed:', error.message);
-    // Handle the error - treat as if field was not present
+  console.error("Parsing failed:", error.message);
+  // Handle the error - treat as if field was not present
 }
 ```
 
 Common error scenarios:
+
 - Invalid characters in tokens
 - Malformed strings (unterminated quotes)
 - Numbers out of range
@@ -670,6 +714,7 @@ Common error scenarios:
 ## JSON Structure Format
 
 ### List Structure
+
 ```javascript
 [
     {
@@ -681,6 +726,7 @@ Common error scenarios:
 ```
 
 ### Dictionary Structure
+
 ```javascript
 {
     "key1": {
@@ -693,6 +739,7 @@ Common error scenarios:
 ```
 
 ### Item Structure
+
 ```javascript
 {
     value: <item_value>,
@@ -701,6 +748,7 @@ Common error scenarios:
 ```
 
 ### Inner List Structure
+
 ```javascript
 [
     {
@@ -714,48 +762,60 @@ Common error scenarios:
 ## Real-World Use Cases
 
 ### Cache-Control Headers
+
 ```javascript
 // Parse Cache-Control as a dictionary
-const cacheControl = StructuredFields.parse('max-age=3600, private, must-revalidate', 'dictionary');
+const cacheControl = HTTPFields.parse(
+  "max-age=3600, private, must-revalidate",
+  "dictionary"
+);
 
 // Create Cache-Control
 const cacheData = {
-    'max-age': { value: 3600, parameters: {} },
-    'private': { value: true, parameters: {} },
-    'must-revalidate': { value: true, parameters: {} }
+  "max-age": { value: 3600, parameters: {} },
+  private: { value: true, parameters: {} },
+  "must-revalidate": { value: true, parameters: {} },
 };
-const header = StructuredFields.serialize(cacheData, 'dictionary');
+const header = HTTPFields.serialize(cacheData, "dictionary");
 ```
 
 ### Accept Headers
+
 ```javascript
 // Parse Accept header as a list
-const accept = StructuredFields.parse('text/html;q=0.9, application/json;q=0.8', 'list');
+const accept = HTTPFields.parse(
+  "text/html;q=0.9, application/json;q=0.8",
+  "list"
+);
 
 // Create Accept header
 const acceptData = [
-    { 
-        value: StructuredFields.token('text/html'), 
-        parameters: { q: 0.9 } 
-    },
-    { 
-        value: StructuredFields.token('application/json'), 
-        parameters: { q: 0.8 } 
-    }
+  {
+    value: HTTPFields.token("text/html"),
+    parameters: { q: 0.9 },
+  },
+  {
+    value: HTTPFields.token("application/json"),
+    parameters: { q: 0.8 },
+  },
 ];
-const header = StructuredFields.serialize(acceptData, 'list');
+const header = HTTPFields.serialize(acceptData, "list");
 ```
 
 ### Custom Application Headers
+
 ```javascript
 // API versioning header
-const version = StructuredFields.parse('v=2;deprecated=?0', 'item');
+const version = HTTPFields.parse("v=2;deprecated=?0", "item");
 
 // Feature flags
-const features = StructuredFields.parse('feature-a, feature-b;enabled=?1', 'list');
+const features = HTTPFields.parse("feature-a, feature-b;enabled=?1", "list");
 
 // Service metadata
-const metadata = StructuredFields.parse('service="api", version=2, region="us-west"', 'dictionary');
+const metadata = HTTPFields.parse(
+  'service="api", version=2, region="us-west"',
+  "dictionary"
+);
 ```
 
 ## Compliance and Testing
@@ -772,6 +832,7 @@ This implementation follows RFC 8941 strictly and passes the community test suit
 ## Browser Compatibility
 
 This library uses modern JavaScript features:
+
 - ES6 modules
 - Array methods (splice, shift, etc.)
 - String methods
@@ -798,8 +859,9 @@ npm run test:coverage
 ```
 
 **Test Results:**
+
 - ✅ **Custom tests**: 47/47 passing
-- ✅ **Official HTTP WG tests**: 168/168 passing  
+- ✅ **Official HTTP WG tests**: 168/168 passing
 - ✅ **Total**: 215 tests passing
 
 Our implementation now passes the same official test suite used by @badgateway/structured-headers while maintaining our developer-friendly API.
@@ -807,6 +869,7 @@ Our implementation now passes the same official test suite used by @badgateway/s
 ## Contributing
 
 Contributions welcome! Please ensure:
+
 - All tests pass
 - Code follows existing style
 - RFC 8941 compliance maintained

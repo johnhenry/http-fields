@@ -1,7 +1,7 @@
 {
-  "name": "structured-headers-rfc8941",
+  "name": "http-fields",
   "version": "0.0.0",
-  "description": "RFC 8941 Structured Field Values for HTTP - Complete JavaScript implementation",
+  "description": "Modern JavaScript library for parsing and serializing HTTP Structured Field Values (RFC 8941 & RFC 9651)",
   "main": "index.mjs",
   "type": "module",
   "exports": {
@@ -28,20 +28,26 @@
     "headers",
     "structured-fields",
     "rfc8941",
+    "rfc9651",
     "parsing",
     "serialization",
-    "web-standards"
+    "web-standards",
+    "http-fields",
+    "structured-headers",
+    "javascript",
+    "typescript",
+    "zero-dependencies"
   ],
   "author": "Your Name",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/structured-headers-rfc8941.git"
+    "url": "https://github.com/yourusername/http-fields.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/structured-headers-rfc8941/issues"
+    "url": "https://github.com/yourusername/http-fields/issues"
   },
-  "homepage": "https://github.com/yourusername/structured-headers-rfc8941#readme",
+  "homepage": "https://github.com/yourusername/http-fields#readme",
   "files": [
     "index.mjs",
     "index.cjs",

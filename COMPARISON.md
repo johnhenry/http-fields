@@ -1,22 +1,23 @@
-# Comparison: Our Implementation vs @badgateway/structured-headers
+# Comparison: http-fields vs @badgateway/structured-headers
 
 ## 📊 Feature Comparison
 
-| Feature | Our Implementation | @badgateway/structured-headers |
-|---------|-------------------|-------------------------------|
-| **RFC Compliance** | RFC 8941 + RFC 9651 ✅ | RFC 8941 + RFC 9651 ✅ |
-| **Language** | JavaScript + TypeScript ✅ | TypeScript + JavaScript |
-| **Dependencies** | Zero dependencies ✅ | Zero dependencies ✅ |
-| **Test Coverage** | 1721 official HTTP WG tests ✅ + 205 custom tests ✅ = **1926 total** | 2805 tests from official HTTP WG ✅ |
-| **Bundle Size** | Lightweight (~15KB) | Heavier (~25KB) |
-| **Browser Support** | ES6+ modules | ESM + CommonJS + Browser builds |
-| **Type Safety** | TypeScript definitions ✅ | TypeScript + runtime validation |
+| Feature             | http-fields                                                           | @badgateway/structured-headers      |
+| ------------------- | --------------------------------------------------------------------- | ----------------------------------- |
+| **RFC Compliance**  | RFC 8941 + RFC 9651 ✅                                                | RFC 8941 + RFC 9651 ✅              |
+| **Language**        | JavaScript + TypeScript ✅                                            | TypeScript + JavaScript             |
+| **Dependencies**    | Zero dependencies ✅                                                  | Zero dependencies ✅                |
+| **Test Coverage**   | 1721 official HTTP WG tests ✅ + 205 custom tests ✅ = **1926 total** | 2805 tests from official HTTP WG ✅ |
+| **Bundle Size**     | Lightweight (~15KB)                                                   | Heavier (~25KB)                     |
+| **Browser Support** | ES6+ modules                                                          | ESM + CommonJS + Browser builds     |
+| **Type Safety**     | TypeScript definitions ✅                                             | TypeScript + runtime validation     |
 
 ## 🏗️ Architecture Differences
 
 ### **Data Structure Approach**
 
-**Our Implementation:**
+**http-fields:**
+
 ```javascript
 // Clean, structured JSON format
 {
@@ -26,53 +27,65 @@
 ```
 
 **@badgateway/structured-headers:**
+
 ```javascript
-// RFC-compliant tuple format  
-[42, new Map([['q', 0.9], ['charset', 'utf-8']])]
+// RFC-compliant tuple format
+[
+  42,
+  new Map([
+    ["q", 0.9],
+    ["charset", "utf-8"],
+  ]),
+];
 ```
 
 ### **API Design Philosophy**
 
-**Our Implementation - Developer-Friendly:**
+**http-fields - Developer-Friendly:**
+
 ```javascript
 // Simple, intuitive API
-const data = StructuredFields.parse('a=1, b=2', 'dictionary');
-const header = StructuredFields.serialize(data, 'dictionary');
+const data = HTTPFields.parse("a=1, b=2", "dictionary");
+const header = HTTPFields.serialize(data, "dictionary");
 
 // Helper functions for all types
-const token = StructuredFields.token('application/json');
-const binary = StructuredFields.binary('SGVsbG8=');
-const date = StructuredFields.date(new Date());
-const displayStr = StructuredFields.displayString('Hello 世界');
+const token = HTTPFields.token("application/json");
+const binary = HTTPFields.binary("SGVsbG8=");
+const date = HTTPFields.date(new Date());
+const displayStr = HTTPFields.displayString("Hello 世界");
 ```
 
 **@badgateway - RFC-Faithful:**
+
 ```javascript
 // Separate functions for each type
-import { parseDictionary, serializeDictionary } from 'structured-headers';
-const data = parseDictionary('a=1, b=2');
+import { parseDictionary, serializeDictionary } from "structured-headers";
+const data = parseDictionary("a=1, b=2");
 const header = serializeDictionary(data);
 
 // Raw types, no helpers
-const token = 'application/json'; // Just a string
+const token = "application/json"; // Just a string
 ```
 
 ## 💡 Key Advantages
 
-### **Our Implementation Strengths:**
+### **http-fields Strengths:**
 
 1. **🎯 Simpler Mental Model**
+
    - Consistent JSON structure across all types
    - Easy to understand and debug
    - Natural for JavaScript developers
 
 2. **🚀 Developer Experience**
+
    - Single `parse()` and `serialize()` functions
    - Helper functions for all types (tokens, binary, dates, display strings)
    - Extensive real-world examples
    - Full TypeScript support with comprehensive type definitions
 
 3. **📱 Modern Development**
+
    - ES6 modules with TypeScript definitions
    - Modern syntax and patterns
    - RFC 9651 support (dates and display strings)
@@ -87,16 +100,19 @@ const token = 'application/json'; // Just a string
 ### **@badgateway Strengths:**
 
 1. **✅ Maximum RFC Compliance**
+
    - Implements both RFC 8941 and RFC 9651
    - Comprehensive official HTTP WG test suite (2805 tests vs our 1926)
    - Strict adherence to specification
 
 2. **🏢 Enterprise Ready**
+
    - TypeScript support
    - Multiple build formats (ESM, CommonJS, Browser)
    - Production-tested in multiple environments
 
 3. **📈 Extended Features**
+
    - Date/timestamp support (@-prefixed)
    - Display strings (Unicode with percent encoding)
    - More comprehensive edge case handling
@@ -108,7 +124,7 @@ const token = 'application/json'; // Just a string
 
 ## 🎯 Use Case Recommendations
 
-### **Choose Our Implementation When:**
+### **Choose http-fields When:**
 
 - **🚀 Rapid Development** - You want to get started quickly
 - **📚 Learning** - You're exploring RFC 8941/9651 concepts
@@ -129,38 +145,41 @@ const token = 'application/json'; // Just a string
 ## 🔄 Migration Considerations
 
 ### **From @badgateway to Ours:**
+
 ```javascript
 // @badgateway format
-const [value, params] = parseItem('42;q=0.9');
+const [value, params] = parseItem("42;q=0.9");
 
-// Our format  
-const {value, parameters} = StructuredFields.parse('42;q=0.9', 'item');
+// http-fields format
+const { value, parameters } = HTTPFields.parse("42;q=0.9", "item");
 ```
 
-### **From Ours to @badgateway:**
+### **From http-fields to @badgateway:**
+
 ```javascript
-// Our format
+// http-fields format
 const data = { value: 42, parameters: { q: 0.9 } };
 
 // @badgateway format
-const tuple = [42, new Map([['q', 0.9]])];
+const tuple = [42, new Map([["q", 0.9]])];
 ```
 
 ## 🧪 Test Coverage Deep Dive
 
-### **Our Comprehensive Test Suite (1926 tests)**
+### **http-fields Comprehensive Test Suite (1926 tests)**
 
-| Test Category | Count | Status |
-|---------------|-------|--------|
-| **Official HTTP WG Parsing Tests** | 1564 | ✅ 100% Pass |
-| **Official HTTP WG Serialization Tests** | 157 | ✅ 100% Pass |
-| **Custom Feature Tests** | 48 | ✅ 100% Pass |
-| **RFC 9651 Extensions** | 157 | ✅ 100% Pass |
-| **Total** | **1926** | ✅ **100% Pass Rate** |
+| Test Category                            | Count    | Status                |
+| ---------------------------------------- | -------- | --------------------- |
+| **Official HTTP WG Parsing Tests**       | 1564     | ✅ 100% Pass          |
+| **Official HTTP WG Serialization Tests** | 157      | ✅ 100% Pass          |
+| **Custom Feature Tests**                 | 48       | ✅ 100% Pass          |
+| **RFC 9651 Extensions**                  | 157      | ✅ 100% Pass          |
+| **Total**                                | **1926** | ✅ **100% Pass Rate** |
 
 ### **Test Categories Covered:**
+
 - ✅ Basic parsing (items, lists, dictionaries)
-- ✅ Parameters and inner lists  
+- ✅ Parameters and inner lists
 - ✅ All data types (strings, numbers, booleans, tokens, binary)
 - ✅ RFC 9651 dates and display strings
 - ✅ Generated edge cases (large values, control characters)
@@ -172,22 +191,24 @@ const tuple = [42, new Map([['q', 0.9]])];
 
 ## 📊 Performance Comparison
 
-| Metric | Our Implementation | @badgateway |
-|--------|-------------------|-------------|
-| **Bundle Size** | ~15KB minified | ~25KB minified |
-| **Parse Speed** | Fast (simple JSON) | Fast (optimized) |
+| Metric           | http-fields           | @badgateway          |
+| ---------------- | --------------------- | -------------------- |
+| **Bundle Size**  | ~15KB minified        | ~25KB minified       |
+| **Parse Speed**  | Fast (simple JSON)    | Fast (optimized)     |
 | **Memory Usage** | Lower (plain objects) | Higher (Maps/tuples) |
-| **Cold Start** | Faster | Slower (TypeScript) |
+| **Cold Start**   | Faster                | Slower (TypeScript)  |
 
 ## 🎭 Philosophy Differences
 
-### **Our Approach: "Developer Happiness"**
+### **http-fields Approach: "Developer Happiness"**
+
 - Prioritize ease of use over spec purity
 - Modern JavaScript idioms
 - Rich documentation and examples
 - Focus on practical applications
 
 ### **@badgateway Approach: "Specification Fidelity"**
+
 - RFC compliance is paramount
 - Enterprise-grade reliability
 - TypeScript-first development
@@ -195,7 +216,8 @@ const tuple = [42, new Map([['q', 0.9]])];
 
 ## 🚀 Innovation Areas
 
-### **Our Unique Contributions:**
+### **http-fields Unique Contributions:**
+
 - **Cookie Integration** - Structured cookies with utility classes
 - **Advanced Use Cases** - IoT, AI, blockchain examples
 - **Headers API Integration** - Native Web API compatibility
@@ -204,6 +226,7 @@ const tuple = [42, new Map([['q', 0.9]])];
 - **Markdown Documentation** - Copy-paste ready examples
 
 ### **@badgateway Unique Features:**
+
 - **Timestamp Support** - Date objects with @ syntax
 - **Display Strings** - Unicode with percent encoding
 - **Comprehensive Testing** - Official HTTP WG test suite
@@ -213,13 +236,14 @@ const tuple = [42, new Map([['q', 0.9]])];
 
 Both libraries now offer comparable feature sets:
 
-- **Our implementation** excels at **developer experience**, **TypeScript support**, **practical applications**, and **comprehensive test coverage** (1926 tests)
+- **http-fields** excels at **developer experience**, **TypeScript support**, **practical applications**, and **comprehensive test coverage** (1926 tests)
 - **@badgateway** excels at **maximum test coverage** (2805 tests) and **multiple build formats**
 
 With our significantly improved test suite (1926 tests vs their 2805) and RFC compliance, the choice now comes down to:
-- **API design preference** - JSON objects (ours) vs tuples/Maps (@badgateway)  
-- **Documentation style** - Extensive examples (ours) vs specification focus (@badgateway)
-- **Build requirements** - ES6 modules (ours) vs multiple formats (@badgateway)
-- **Test coverage needs** - Comprehensive (ours, 1926 tests) vs exhaustive (@badgateway, 2805 tests)
+
+- **API design preference** - JSON objects (http-fields) vs tuples/Maps (@badgateway)
+- **Documentation style** - Extensive examples (http-fields) vs specification focus (@badgateway)
+- **Build requirements** - ES6 modules (http-fields) vs multiple formats (@badgateway)
+- **Test coverage needs** - Comprehensive (http-fields, 1926 tests) vs exhaustive (@badgateway, 2805 tests)
 
 Both libraries are now excellent choices for working with structured HTTP headers! 🎉

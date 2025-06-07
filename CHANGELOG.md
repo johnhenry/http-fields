@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Initial Release
 
-Complete JavaScript/TypeScript implementation of RFC 8941 and RFC 9651 Structured Field Values for HTTP.
+**http-fields** - A modern JavaScript/TypeScript implementation of RFC 8941 and RFC 9651 Structured Field Values for HTTP.
 
 ### Features
 

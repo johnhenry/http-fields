@@ -1,11 +1,11 @@
-// Type definitions for structured-headers-rfc9651
-// Project: https://github.com/yourusername/structured-headers-rfc9651
+// Type definitions for http-fields
+// Project: https://github.com/yourusername/http-fields
 // Definitions by: [Your Name] <[your-email]>
 
-export type FieldType = 'list' | 'dictionary' | 'item';
+export type FieldType = "list" | "dictionary" | "item";
 
 // Basic item types
-export type BareItemValue = 
+export type BareItemValue =
   | number
   | string
   | boolean
@@ -16,23 +16,23 @@ export type BareItemValue =
 
 // Structured item types
 export interface TokenValue {
-  type: 'token';
+  type: "token";
   value: string;
 }
 
 export interface BinaryValue {
-  type: 'binary';
+  type: "binary";
   value: string; // Base64 encoded
   decoded?: string; // Optional decoded content
 }
 
 export interface DateValue {
-  type: 'date';
+  type: "date";
   value: Date;
 }
 
 export interface DisplayStringValue {
-  type: 'displaystring';
+  type: "displaystring";
   value: string; // Unicode string
 }
 
@@ -55,14 +55,16 @@ export type List = Item[];
 export type Dictionary = Record<string, Item>;
 
 // Parse result types
-export type ParseResult<T extends FieldType> = 
-  T extends 'list' ? List :
-  T extends 'dictionary' ? Dictionary :
-  T extends 'item' ? Item :
-  never;
+export type ParseResult<T extends FieldType> = T extends "list"
+  ? List
+  : T extends "dictionary"
+  ? Dictionary
+  : T extends "item"
+  ? Item
+  : never;
 
-// Main StructuredFields interface
-export interface StructuredFieldsAPI {
+// Main HTTPFields interface
+export interface HTTPFieldsAPI {
   /**
    * Parse a structured field string into JSON
    * @param fieldValue The HTTP field value to parse
@@ -79,9 +81,9 @@ export interface StructuredFieldsAPI {
    * @returns Serialized field value string
    * @throws Error if serialization fails
    */
-  serialize(data: List, fieldType: 'list'): string;
-  serialize(data: Dictionary, fieldType: 'dictionary'): string;
-  serialize(data: Item, fieldType: 'item'): string;
+  serialize(data: List, fieldType: "list"): string;
+  serialize(data: Dictionary, fieldType: "dictionary"): string;
+  serialize(data: Item, fieldType: "item"): string;
 
   /**
    * Create a token value
@@ -113,25 +115,28 @@ export interface StructuredFieldsAPI {
 }
 
 // Default export
-declare const StructuredFields: StructuredFieldsAPI;
-export default StructuredFields;
+declare const HTTPFields: HTTPFieldsAPI;
+export default HTTPFields;
 
 // Utility types for more advanced usage
 
 /**
  * Extract the value type from an Item
  */
-export type ItemValue<T extends Item> = T['value'];
+export type ItemValue<T extends Item> = T["value"];
 
 /**
  * Extract parameters from an Item
  */
-export type ItemParameters<T extends Item> = T['parameters'];
+export type ItemParameters<T extends Item> = T["parameters"];
 
 /**
  * Create an Item type with specific value and parameter types
  */
-export type TypedItem<V extends BareItemValue | InnerList, P extends Parameters = Parameters> = {
+export type TypedItem<
+  V extends BareItemValue | InnerList,
+  P extends Parameters = Parameters
+> = {
   value: V;
   parameters: P;
 };
@@ -139,12 +144,14 @@ export type TypedItem<V extends BareItemValue | InnerList, P extends Parameters 
 /**
  * Create a Dictionary with specific key-value types
  */
-export type TypedDictionary<T extends Record<string, Item> = Record<string, Item>> = T;
+export type TypedDictionary<
+  T extends Record<string, Item> = Record<string, Item>
+> = T;
 
 /**
  * Helper type for creating strongly-typed structured fields
  */
-export namespace TypedStructuredFields {
+export namespace TypedHTTPFields {
   // Simple item types
   export type IntegerItem = TypedItem<number>;
   export type StringItem = TypedItem<string>;
@@ -170,23 +177,26 @@ export namespace TypedStructuredFields {
   // Typed items with common parameters
   export type AcceptItem = TypedItem<TokenValue, QualityParameters>;
   export type ContentTypeItem = TypedItem<TokenValue, CharsetParameters>;
-  export type ApiVersionItem = TypedItem<TokenValue | number, VersionParameters>;
+  export type ApiVersionItem = TypedItem<
+    TokenValue | number,
+    VersionParameters
+  >;
 
   // Common dictionary patterns
   export interface CacheControlDictionary extends TypedDictionary {
-    'max-age'?: IntegerItem;
-    'private'?: BooleanItem;
-    'public'?: BooleanItem;
-    'must-revalidate'?: BooleanItem;
-    'no-cache'?: BooleanItem;
-    'no-store'?: BooleanItem;
+    "max-age"?: IntegerItem;
+    private?: BooleanItem;
+    public?: BooleanItem;
+    "must-revalidate"?: BooleanItem;
+    "no-cache"?: BooleanItem;
+    "no-store"?: BooleanItem;
   }
 
   export interface SecurityPolicyDictionary extends TypedDictionary {
-    'default-src'?: TypedItem<InnerList>;
-    'script-src'?: TypedItem<InnerList>;
-    'style-src'?: TypedItem<InnerList>;
-    'img-src'?: TypedItem<InnerList>;
+    "default-src"?: TypedItem<InnerList>;
+    "script-src"?: TypedItem<InnerList>;
+    "style-src"?: TypedItem<InnerList>;
+    "img-src"?: TypedItem<InnerList>;
   }
 }
 
@@ -194,40 +204,65 @@ export namespace TypedStructuredFields {
 export class StructuredFieldParseError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'StructuredFieldParseError';
+    this.name = "StructuredFieldParseError";
   }
 }
 
-export class StructuredFieldSerializeError extends Error {
+export class HTTPFieldserializeError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'StructuredFieldSerializeError';
+    this.name = "HTTPFieldserializeError";
   }
 }
 
 // Constants
-export const RFC_VERSION = '9651' as const;
-export const SUPPORTED_TYPES = ['list', 'dictionary', 'item'] as const;
+export const RFC_VERSION = "9651" as const;
+export const SUPPORTED_TYPES = ["list", "dictionary", "item"] as const;
 
 // Validation helpers (type guards)
 export function isTokenValue(value: any): value is TokenValue {
-  return typeof value === 'object' && value !== null && value.type === 'token' && typeof value.value === 'string';
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    value.type === "token" &&
+    typeof value.value === "string"
+  );
 }
 
 export function isBinaryValue(value: any): value is BinaryValue {
-  return typeof value === 'object' && value !== null && value.type === 'binary' && typeof value.value === 'string';
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    value.type === "binary" &&
+    typeof value.value === "string"
+  );
 }
 
 export function isDateValue(value: any): value is DateValue {
-  return typeof value === 'object' && value !== null && value.type === 'date' && value.value instanceof Date;
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    value.type === "date" &&
+    value.value instanceof Date
+  );
 }
 
 export function isDisplayStringValue(value: any): value is DisplayStringValue {
-  return typeof value === 'object' && value !== null && value.type === 'displaystring' && typeof value.value === 'string';
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    value.type === "displaystring" &&
+    typeof value.value === "string"
+  );
 }
 
 export function isItem(value: any): value is Item {
-  return typeof value === 'object' && value !== null && 'value' in value && 'parameters' in value;
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "value" in value &&
+    "parameters" in value
+  );
 }
 
 export function isList(value: any): value is List {
@@ -235,8 +270,12 @@ export function isList(value: any): value is List {
 }
 
 export function isDictionary(value: any): value is Dictionary {
-  return typeof value === 'object' && value !== null && !Array.isArray(value) && 
-         Object.values(value).every(isItem);
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    Object.values(value).every(isItem)
+  );
 }
 
 // Utility functions for working with structured fields
@@ -244,17 +283,19 @@ export namespace StructuredFieldUtils {
   /**
    * Create a simple item without parameters
    */
-  export function createItem<T extends BareItemValue | InnerList>(value: T): TypedItem<T> {
+  export function createItem<T extends BareItemValue | InnerList>(
+    value: T
+  ): TypedItem<T> {
     return { value, parameters: {} };
   }
 
   /**
    * Create an item with parameters
    */
-  export function createItemWithParams<T extends BareItemValue | InnerList, P extends Parameters>(
-    value: T, 
-    parameters: P
-  ): TypedItem<T, P> {
+  export function createItemWithParams<
+    T extends BareItemValue | InnerList,
+    P extends Parameters
+  >(value: T, parameters: P): TypedItem<T, P> {
     return { value, parameters };
   }
 
@@ -262,7 +303,7 @@ export namespace StructuredFieldUtils {
    * Extract a parameter value with type safety
    */
   export function getParameter<T extends BareItemValue>(
-    item: Item, 
+    item: Item,
     key: string
   ): T | undefined {
     return item.parameters[key] as T | undefined;
@@ -279,7 +320,7 @@ export namespace StructuredFieldUtils {
    * Get a dictionary value with type safety
    */
   export function getDictionaryValue<T extends Item>(
-    dict: Dictionary, 
+    dict: Dictionary,
     key: string
   ): T | undefined {
     return dict[key] as T | undefined;
@@ -295,28 +336,28 @@ export namespace StructuredFieldUtils {
     mustRevalidate?: boolean;
     noCache?: boolean;
     noStore?: boolean;
-  }): TypedStructuredFields.CacheControlDictionary {
-    const result: TypedStructuredFields.CacheControlDictionary = {};
-    
+  }): TypedHTTPFields.CacheControlDictionary {
+    const result: TypedHTTPFields.CacheControlDictionary = {};
+
     if (options.maxAge !== undefined) {
-      result['max-age'] = createItem(options.maxAge);
+      result["max-age"] = createItem(options.maxAge);
     }
     if (options.private) {
-      result['private'] = createItem(true);
+      result["private"] = createItem(true);
     }
     if (options.public) {
-      result['public'] = createItem(true);
+      result["public"] = createItem(true);
     }
     if (options.mustRevalidate) {
-      result['must-revalidate'] = createItem(true);
+      result["must-revalidate"] = createItem(true);
     }
     if (options.noCache) {
-      result['no-cache'] = createItem(true);
+      result["no-cache"] = createItem(true);
     }
     if (options.noStore) {
-      result['no-store'] = createItem(true);
+      result["no-store"] = createItem(true);
     }
-    
+
     return result;
   }
 }
