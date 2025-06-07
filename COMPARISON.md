@@ -166,15 +166,15 @@ const tuple = [42, new Map([["q", 0.9]])];
 
 ## 🧪 Test Coverage Deep Dive
 
-### **http-fields Comprehensive Test Suite (1926 tests)**
+### **http-fields Comprehensive Test Suite (1758 tests)**
 
 | Test Category                            | Count    | Status                |
 | ---------------------------------------- | -------- | --------------------- |
-| **Official HTTP WG Parsing Tests**       | 1564     | ✅ 100% Pass          |
-| **Official HTTP WG Serialization Tests** | 157      | ✅ 100% Pass          |
-| **Custom Feature Tests**                 | 48       | ✅ 100% Pass          |
-| **RFC 9651 Extensions**                  | 157      | ✅ 100% Pass          |
-| **Total**                                | **1926** | ✅ **100% Pass Rate** |
+| **Official HTTP WG Parsing Tests**       | ~1520    | ✅ 100% Pass          |
+| **Official HTTP WG Serialization Tests** | ~140     | ✅ 100% Pass          |
+| **Custom Feature Tests**                 | ~47      | ✅ 100% Pass          |
+| **RFC 9651 Extensions**                  | ~51      | ✅ 100% Pass          |
+| **Total**                                | **1758** | ✅ **100% Pass Rate** |
 
 ### **Test Categories Covered:**
 

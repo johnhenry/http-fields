@@ -208,10 +208,10 @@ export class StructuredFieldParseError extends Error {
   }
 }
 
-export class HTTPFieldserializeError extends Error {
+export class HTTPFieldsSerializeError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "HTTPFieldserializeError";
+    this.name = "HTTPFieldsSerializeError";
   }
 }
 

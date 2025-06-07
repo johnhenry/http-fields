@@ -862,9 +862,9 @@ npm run test:coverage
 
 **Test Results:**
 
-- ✅ **Custom tests**: 47/47 passing
-- ✅ **Official HTTP WG tests**: 168/168 passing
-- ✅ **Total**: 215 tests passing
+- ✅ **Custom tests**: 47/47 passing  
+- ✅ **Official HTTP WG tests**: 1711/1711 passing
+- ✅ **Total**: 1758 tests passing
 
 Our implementation now passes the same official test suite used by badgateway/structured-headers while maintaining our developer-friendly API.
 

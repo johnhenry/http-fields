@@ -6,16 +6,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./index.mjs",
-      "require": "./index.cjs"
+      "import": "./index.mjs"
     }
   },
   "scripts": {
-    "test": "node --test test/*.mjs",
+    "test": "node --test test/**/*.mjs",
     "test:basic": "node --test test/test.mjs",
     "test:official": "node --test test/official-tests.mjs",
     "test:serialization": "node --test test/serialization-tests.mjs",
-    "test:all": "npm run test && npm run test:serialization",
+    "test:base32": "node --test test/base32.mjs",
     "test:watch": "node --test --watch test/*.mjs",
     "test:coverage": "node --test --experimental-test-coverage test/*.mjs",
     "build": "node scripts/build.mjs",
