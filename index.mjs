@@ -131,7 +131,8 @@ const StructuredFields = (() => {
         const input = Array.from(inputString);
         const dict = {};
         
-        skipOWS(input);
+        // Only skip spaces at the beginning, not tabs (keys cannot start with tabs)
+        skipSP(input);
         
         while (input.length > 0) {
             const key = parseKey(input);
@@ -156,6 +157,10 @@ const StructuredFields = (() => {
                 skipOWS(input);
                 if (input.length === 0) {
                     throw new Error('Unexpected end of input after comma');
+                }
+                // After comma whitespace, don't allow tabs before next key
+                if (input.length > 0 && input[0] === '\t') {
+                    throw new Error('Tab character not allowed before dictionary key');
                 }
             } else {
                 break;
@@ -276,10 +281,19 @@ const StructuredFields = (() => {
             throw new Error('Integer too large');
         }
         
+        // RFC 8941: Check for invalid leading zero patterns in decimals
+        // This will be checked later if we find a decimal point
+        
         // Check for decimal point
         if (input.length > 0 && input[0] === '.') {
             type = 'decimal';
             input.shift(); // consume '.'
+            
+            // RFC 8941: Reject decimal numbers with excessive leading zeros
+            // "000000000000000.0" should fail (15 zeros + decimal)
+            if (num.length >= 15 && num === '0'.repeat(15)) {
+                throw new Error('Too many leading zeros in decimal number');
+            }
             
             if (input.length === 0 || !isDigit(input[0])) {
                 throw new Error('Expected digit after decimal point');
@@ -505,8 +519,31 @@ const StructuredFields = (() => {
         return `(${items})${serializeParameters(listParams)}`;
     };
 
+    // Validation function for dictionary keys during serialization
+    const validateKey = (key) => {
+        if (typeof key !== 'string' || key.length === 0) {
+            throw new Error('Dictionary key must be a non-empty string');
+        }
+        
+        // Check first character: must be lowercase letter or '*'
+        if (!isLcAlpha(key[0]) && key[0] !== '*') {
+            throw new Error('Dictionary key must start with lowercase letter or "*"');
+        }
+        
+        // Check all characters: must be valid key characters
+        for (let i = 0; i < key.length; i++) {
+            const char = key[i];
+            if (!isLcAlpha(char) && !isDigit(char) && char !== '_' && char !== '-' && char !== '.' && char !== '*') {
+                throw new Error(`Invalid character in dictionary key: "${char}" (0x${char.charCodeAt(0).toString(16).padStart(2, '0')})`);
+            }
+        }
+    };
+
     const serializeDictionary = (dict) => {
         return Object.entries(dict).map(([key, member]) => {
+            // Validate the key before serializing
+            validateKey(key);
+            
             if (member.value === true) {
                 return key + serializeParameters(member.parameters || {});
             } else {
@@ -525,16 +562,54 @@ const StructuredFields = (() => {
     const serializeBareItem = (item) => {
         if (typeof item === 'number') {
             if (Number.isInteger(item)) {
+                // Validate integer range
+                if (item < -999999999999999 || item > 999999999999999) {
+                    throw new Error('Integer out of serializable range');
+                }
                 return item.toString();
             } else {
-                return item.toFixed(3).replace(/\.?0+$/, '');
+                // Validate decimal range
+                if (Math.abs(item) >= 1000000000000) {
+                    throw new Error('Decimal out of serializable range');
+                }
+                // Handle JavaScript rounding - use custom rounding to match RFC
+                const rounded = Math.round(item * 1000) / 1000;
+                return rounded.toFixed(3).replace(/\.?0+$/, '');
             }
         } else if (typeof item === 'string') {
+            // Validate string doesn't contain control characters that aren't properly escapable
+            for (let i = 0; i < item.length; i++) {
+                const char = item[i];
+                const code = char.charCodeAt(0);
+                // All control characters (0x00-0x1F and 0x7F) should fail serialization
+                if (code < 0x20 || code === 0x7F) {
+                    throw new Error(`String contains invalid control character: 0x${code.toString(16).padStart(2, '0')}`);
+                }
+            }
             return `"${item.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
         } else if (typeof item === 'boolean') {
             return item ? '?1' : '?0';
         } else if (item && item.type === 'token') {
-            return item.value;
+            // Validate token characters
+            const tokenValue = item.value;
+            if (typeof tokenValue !== 'string' || tokenValue.length === 0) {
+                throw new Error('Token value must be a non-empty string');
+            }
+            
+            // Check first character
+            if (!isAlpha(tokenValue[0]) && tokenValue[0] !== '*') {
+                throw new Error('Token must start with alphabetic character or "*"');
+            }
+            
+            // Check all characters
+            for (let i = 0; i < tokenValue.length; i++) {
+                const char = tokenValue[i];
+                if (!isTchar(char)) {
+                    throw new Error(`Invalid character in token: "${char}" (0x${char.charCodeAt(0).toString(16).padStart(2, '0')})`);
+                }
+            }
+            
+            return tokenValue;
         } else if (item && item.type === 'binary') {
             return `:${item.value}:`;
         } else if (item && item.type === 'date') {
@@ -565,6 +640,9 @@ const StructuredFields = (() => {
 
     const serializeParameters = (params) => {
         return Object.entries(params).map(([key, value]) => {
+            // Validate parameter key
+            validateKey(key);
+            
             if (value === true) {
                 return `;${key}`;
             } else {

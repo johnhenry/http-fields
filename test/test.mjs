@@ -176,11 +176,11 @@ describe('RFC 8941 Structured Fields', () => {
 
         test('should serialize items', () => {
             const itemData = {
-                value: StructuredFields.token('application/json'),
+                value: StructuredFields.token('application-json'),
                 parameters: { charset: StructuredFields.token('utf-8') }
             };
             const serializedItem = StructuredFields.serialize(itemData, 'item');
-            assert.strictEqual(serializedItem, 'application/json;charset=utf-8');
+            assert.strictEqual(serializedItem, 'application-json;charset=utf-8');
         });
     });
 

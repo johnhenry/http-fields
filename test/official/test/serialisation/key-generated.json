@@ -1,0 +1,1256 @@
+[
+    {
+        "name": "0x00 in dict key - serialise only",
+        "expected": {
+            "a\u0000a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x01 in dict key - serialise only",
+        "expected": {
+            "a\u0001a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x02 in dict key - serialise only",
+        "expected": {
+            "a\u0002a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x03 in dict key - serialise only",
+        "expected": {
+            "a\u0003a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x04 in dict key - serialise only",
+        "expected": {
+            "a\u0004a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x05 in dict key - serialise only",
+        "expected": {
+            "a\u0005a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x06 in dict key - serialise only",
+        "expected": {
+            "a\u0006a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x07 in dict key - serialise only",
+        "expected": {
+            "a\u0007a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x08 in dict key - serialise only",
+        "expected": {
+            "a\u0008a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x09 in dict key - serialise only",
+        "expected": {
+            "a\u0009a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x0a in dict key - serialise only",
+        "expected": {
+            "a\u000aa": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x0b in dict key - serialise only",
+        "expected": {
+            "a\u000ba": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x0c in dict key - serialise only",
+        "expected": {
+            "a\u000ca": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x0d in dict key - serialise only",
+        "expected": {
+            "a\u000da": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x0e in dict key - serialise only",
+        "expected": {
+            "a\u000ea": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x0f in dict key - serialise only",
+        "expected": {
+            "a\u000fa": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x10 in dict key - serialise only",
+        "expected": {
+            "a\u0010a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x11 in dict key - serialise only",
+        "expected": {
+            "a\u0011a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x12 in dict key - serialise only",
+        "expected": {
+            "a\u0012a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x13 in dict key - serialise only",
+        "expected": {
+            "a\u0013a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x14 in dict key - serialise only",
+        "expected": {
+            "a\u0014a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x15 in dict key - serialise only",
+        "expected": {
+            "a\u0015a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x16 in dict key - serialise only",
+        "expected": {
+            "a\u0016a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_file": true
+    },
+    {
+        "name": "0x17 in dict key - serialise only",
+        "expected": {
+            "a\u0017a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x18 in dict key - serialise only",
+        "expected": {
+            "a\u0018a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x19 in dict key - serialise only",
+        "expected": {
+            "a\u0019a": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x1a in dict key - serialise only",
+        "expected": {
+            "a\u001aa": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x1b in dict key - serialise only",
+        "expected": {
+            "a\u001ba": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x1c in dict key - serialise only",
+        "expected": {
+            "a\u001ca": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x1d in dict key - serialise only",
+        "expected": {
+            "a\u001da": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x1e in dict key - serialise only",
+        "expected": {
+            "a\u001ea": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x1f in dict key - serialise only",
+        "expected": {
+            "a\u001fa": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x7f in dict key - serialise only",
+        "expected": {
+            "a\u007fa": [
+                {
+                    "__type": "token",
+                    "value": "a"
+                },
+                {}
+            ]
+        },
+        "header_type": "dict",
+        "must_fail": true
+    },
+    {
+        "name": "0x00 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0000a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x01 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0001a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x02 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0002a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x03 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0003a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x04 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0004a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x05 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0005a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x06 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0006a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x07 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0007a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x08 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0008a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x09 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0009a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x0a in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u000aa": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x0b in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u000ba": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x0c in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u000ca": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x0d in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u000da": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x0e in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u000ea": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x0f in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u000fa": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x10 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0010a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x11 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0011a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x12 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0012a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x13 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0013a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x14 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0014a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x15 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0015a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x16 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0016a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x17 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0017a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x18 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0018a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x19 in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u0019a": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x1a in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u001aa": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x1b in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u001ba": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x1c in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u001ca": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x1d in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u001da": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x1e in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u001ea": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x1f in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u001fa": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    },
+    {
+        "name": "0x7f in list key - serialise only",
+        "expected": [
+            [
+                [
+                    {
+                        "__type": "token",
+                        "value": "a"
+                    },
+                    {
+                        "a\u007fa": [
+                            {
+                                "__type": "token",
+                                "value": "a"
+                            },
+                            {}
+                        ]
+                    }
+                ]
+            ]
+        ],
+        "header_type": "list",
+        "must_fail": true
+    }
+]

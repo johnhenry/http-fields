@@ -210,12 +210,21 @@ function runOfficialTestSuite(filename, suiteName) {
 // Run all official test suites
 runOfficialTestSuite('item.json', 'Items');
 runOfficialTestSuite('list.json', 'Lists');
+runOfficialTestSuite('listlist.json', 'List of Lists');
 runOfficialTestSuite('dictionary.json', 'Dictionaries');
 runOfficialTestSuite('binary.json', 'Binary Data');
 runOfficialTestSuite('boolean.json', 'Booleans');
 runOfficialTestSuite('number.json', 'Numbers');
+runOfficialTestSuite('number-generated.json', 'Numbers (Generated)');
 runOfficialTestSuite('string.json', 'Strings');
+runOfficialTestSuite('string-generated.json', 'Strings (Generated)');
 runOfficialTestSuite('token.json', 'Tokens');
+runOfficialTestSuite('token-generated.json', 'Tokens (Generated)');
+runOfficialTestSuite('key-generated.json', 'Keys (Generated)');
 runOfficialTestSuite('date.json', 'Dates (RFC 9651)');
 runOfficialTestSuite('display-string.json', 'Display Strings (RFC 9651)');
+runOfficialTestSuite('param-dict.json', 'Dictionary Parameters');
+runOfficialTestSuite('param-list.json', 'List Parameters');
+runOfficialTestSuite('param-listlist.json', 'List of Lists Parameters');
+runOfficialTestSuite('large-generated.json', 'Large Values (Generated)');
 runOfficialTestSuite('examples.json', 'Examples');

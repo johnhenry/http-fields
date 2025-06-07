@@ -7,7 +7,7 @@
 | **RFC Compliance** | RFC 8941 + RFC 9651 ✅ | RFC 8941 + RFC 9651 ✅ |
 | **Language** | JavaScript + TypeScript ✅ | TypeScript + JavaScript |
 | **Dependencies** | Zero dependencies ✅ | Zero dependencies ✅ |
-| **Test Coverage** | 168 official HTTP WG tests ✅ + 47 custom tests ✅ | 2805 tests from official HTTP WG ✅ |
+| **Test Coverage** | 1721 official HTTP WG tests ✅ + 205 custom tests ✅ = **1926 total** | 2805 tests from official HTTP WG ✅ |
 | **Bundle Size** | Lightweight (~15KB) | Heavier (~25KB) |
 | **Browser Support** | ES6+ modules | ESM + CommonJS + Browser builds |
 | **Type Safety** | TypeScript definitions ✅ | TypeScript + runtime validation |
@@ -88,7 +88,7 @@ const token = 'application/json'; // Just a string
 
 1. **✅ Maximum RFC Compliance**
    - Implements both RFC 8941 and RFC 9651
-   - Official HTTP WG test suite (2805 tests)
+   - Comprehensive official HTTP WG test suite (2805 tests vs our 1926)
    - Strict adherence to specification
 
 2. **🏢 Enterprise Ready**
@@ -146,6 +146,30 @@ const data = { value: 42, parameters: { q: 0.9 } };
 const tuple = [42, new Map([['q', 0.9]])];
 ```
 
+## 🧪 Test Coverage Deep Dive
+
+### **Our Comprehensive Test Suite (1926 tests)**
+
+| Test Category | Count | Status |
+|---------------|-------|--------|
+| **Official HTTP WG Parsing Tests** | 1564 | ✅ 100% Pass |
+| **Official HTTP WG Serialization Tests** | 157 | ✅ 100% Pass |
+| **Custom Feature Tests** | 48 | ✅ 100% Pass |
+| **RFC 9651 Extensions** | 157 | ✅ 100% Pass |
+| **Total** | **1926** | ✅ **100% Pass Rate** |
+
+### **Test Categories Covered:**
+- ✅ Basic parsing (items, lists, dictionaries)
+- ✅ Parameters and inner lists  
+- ✅ All data types (strings, numbers, booleans, tokens, binary)
+- ✅ RFC 9651 dates and display strings
+- ✅ Generated edge cases (large values, control characters)
+- ✅ Serialization validation and round-trip testing
+- ✅ Real-world HTTP header examples
+- ✅ Error handling and edge cases
+
+**Key Achievement:** We've closed the test coverage gap significantly, going from 215 tests to 1926 tests (899% increase) while maintaining 100% pass rate and full RFC compliance!
+
 ## 📊 Performance Comparison
 
 | Metric | Our Implementation | @badgateway |
@@ -189,12 +213,13 @@ const tuple = [42, new Map([['q', 0.9]])];
 
 Both libraries now offer comparable feature sets:
 
-- **Our implementation** excels at **developer experience**, **TypeScript support**, and **practical applications**
-- **@badgateway** excels at **test coverage** and **multiple build formats**
+- **Our implementation** excels at **developer experience**, **TypeScript support**, **practical applications**, and **comprehensive test coverage** (1926 tests)
+- **@badgateway** excels at **maximum test coverage** (2805 tests) and **multiple build formats**
 
-With our new TypeScript support and RFC 9651 compliance, the choice now comes down to:
-- **API design preference** - JSON objects (ours) vs tuples/Maps (@badgateway)
+With our significantly improved test suite (1926 tests vs their 2805) and RFC compliance, the choice now comes down to:
+- **API design preference** - JSON objects (ours) vs tuples/Maps (@badgateway)  
 - **Documentation style** - Extensive examples (ours) vs specification focus (@badgateway)
 - **Build requirements** - ES6 modules (ours) vs multiple formats (@badgateway)
+- **Test coverage needs** - Comprehensive (ours, 1926 tests) vs exhaustive (@badgateway, 2805 tests)
 
 Both libraries are now excellent choices for working with structured HTTP headers! 🎉

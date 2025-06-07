@@ -14,6 +14,8 @@
     "test": "node --test test/*.mjs",
     "test:basic": "node --test test/test.mjs",
     "test:official": "node --test test/official-tests.mjs",
+    "test:serialization": "node --test test/serialization-tests.mjs",
+    "test:all": "npm run test && npm run test:serialization",
     "test:watch": "node --test --watch test/*.mjs",
     "test:coverage": "node --test --experimental-test-coverage test/*.mjs",
     "build": "node scripts/build.mjs",
