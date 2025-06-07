@@ -424,7 +424,7 @@ method=(get post), format=json;version=2, flags=(a b c);test=?1
 
 ✅ **Examples completed!** 🎉
 
-# Side-by-Side Comparison: Our Implementation vs @badgateway/structured-headers
+# Side-by-Side Comparison: Our Implementation vs badgateway/structured-headers
 
 ## Example 1: Basic Parsing Comparison
 

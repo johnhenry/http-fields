@@ -2,6 +2,8 @@
 
 A modern JavaScript library for parsing and serializing HTTP Structured Field Values ([RFC 8941](https://www.rfc-editor.org/rfc/rfc8941.html) & [RFC 9651](https://www.rfc-editor.org/rfc/rfc9651.html)). Provides bidirectional translation between structured header strings and JSON with full TypeScript support.
 
+See also [badgateway/structured-headers](https://github.com/badgateway/structured-headers)
+
 ## Overview
 
 Structured Fields is a specification that defines common data structures for HTTP header and trailer fields. Instead of each HTTP field having its own custom parsing logic, this specification provides a set of well-defined data types and parsing algorithms that can be shared across multiple fields.
@@ -864,7 +866,7 @@ npm run test:coverage
 - ✅ **Official HTTP WG tests**: 168/168 passing
 - ✅ **Total**: 215 tests passing
 
-Our implementation now passes the same official test suite used by @badgateway/structured-headers while maintaining our developer-friendly API.
+Our implementation now passes the same official test suite used by badgateway/structured-headers while maintaining our developer-friendly API.
 
 ## Contributing
 

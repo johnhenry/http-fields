@@ -1,8 +1,8 @@
-# Comparison: http-fields vs @badgateway/structured-headers
+# Comparison: http-fields vs badgateway/structured-headers
 
 ## 📊 Feature Comparison
 
-| Feature             | http-fields                                                           | @badgateway/structured-headers      |
+| Feature             | http-fields                                                           | badgateway/structured-headers       |
 | ------------------- | --------------------------------------------------------------------- | ----------------------------------- |
 | **RFC Compliance**  | RFC 8941 + RFC 9651 ✅                                                | RFC 8941 + RFC 9651 ✅              |
 | **Language**        | JavaScript + TypeScript ✅                                            | TypeScript + JavaScript             |
@@ -26,7 +26,7 @@
 }
 ```
 
-**@badgateway/structured-headers:**
+**badgateway/structured-headers:**
 
 ```javascript
 // RFC-compliant tuple format

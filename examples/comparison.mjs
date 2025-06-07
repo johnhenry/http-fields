@@ -1,7 +1,7 @@
 import HTTPFields from "../index.mjs";
 
 console.log(
-  "# Side-by-Side Comparison: Our Implementation vs @badgateway/structured-headers\n"
+  "# Side-by-Side Comparison: Our Implementation vs badgateway/structured-headers\n"
 );
 
 // Example 1: Basic Parsing Comparison
