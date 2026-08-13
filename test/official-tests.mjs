@@ -67,7 +67,9 @@ function convertValue(value) {
       case "binary":
         return { type: "binary", value: value.value };
       case "date":
-        return { type: "date", value: new Date(value.value * 1000) };
+        // Compare dates by exact seconds — Invalid Dates (timestamps beyond
+        // the JS Date range) are never deepStrictEqual to each other
+        return { type: "date", value: value.value };
       case "displaystring":
         return { type: "displaystring", value: value.value };
       default:
@@ -94,8 +96,8 @@ function convertParams(params) {
 function unwrapDecimals(node) {
   if (!node || typeof node !== "object") return node;
   if (node.type === "decimal") return node.value;
-  // Drop the auxiliary `seconds` field so dates compare by value only
-  if (node.type === "date") return { type: "date", value: node.value };
+  // Compare dates by exact seconds (see convertValue)
+  if (node.type === "date") return { type: "date", value: node.seconds };
   if (Array.isArray(node)) return node.map(unwrapDecimals);
   if (node instanceof Date) return node;
   const out = {};
@@ -156,7 +158,10 @@ function normalizeValue(item) {
           } else if (normalizedInnerValue.type === "date") {
             normalizedInnerValue = {
               __type: "date",
-              value: Math.floor(normalizedInnerValue.value.getTime() / 1000),
+              value:
+                typeof normalizedInnerValue.value === "number"
+                  ? normalizedInnerValue.value
+                  : Math.floor(normalizedInnerValue.value.getTime() / 1000),
             };
           } else if (normalizedInnerValue.type === "displaystring") {
             normalizedInnerValue = {
@@ -248,6 +253,15 @@ function runOfficialTestSuite(filename, suiteName) {
             }
 
             assert.deepStrictEqual(normalizedResult, convertedExpected);
+
+            // Canonical round-trip: re-serializing the parsed value must
+            // produce the test's canonical form (or the input if none given)
+            const canonical = (testCase.canonical ?? testCase.raw).join(", ");
+            assert.strictEqual(
+              HTTPFields.serialize(result, headerType),
+              canonical,
+              `Canonical serialization mismatch for "${raw}"`
+            );
           } catch (error) {
             throw new Error(`Failed to parse "${raw}": ${error.message}`);
           }
