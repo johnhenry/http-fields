@@ -1,6 +1,6 @@
 {
   "name": "http-fields",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Modern JavaScript library for parsing and serializing HTTP Structured Field Values (RFC 8941 & RFC 9651)",
   "main": "index.mjs",
   "type": "module",
@@ -9,6 +9,10 @@
     ".": {
       "types": "./types.d.ts",
       "import": "./index.mjs"
+    },
+    "./headers": {
+      "types": "./headers.d.ts",
+      "import": "./headers.mjs"
     }
   },
   "scripts": {
@@ -49,6 +53,8 @@
   "files": [
     "index.mjs",
     "types.d.ts",
+    "headers.mjs",
+    "headers.d.ts",
     "README.md",
     "LICENSE"
   ],

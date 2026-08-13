@@ -219,6 +219,38 @@ const displayObj = HTTPFields.displayString("Hello 世界");
 // Serializes to: %"Hello %e4%b8%96%e7%95%8c"
 ```
 
+## Header Helpers (`http-fields/headers`)
+
+The core module parses the generic RFC 8941/9651 grammar; the
+`http-fields/headers` subpath maps that generic result into named, typed
+fields for real headers built on Structured Field Values — and back:
+
+```javascript
+import {
+  parsePriority,      // RFC 9218:  "u=2, i"  → { urgency: 2, incremental: true }
+  serializePriority,  //            { urgency: 2, incremental: true } → "u=2, i"
+  parseCacheStatus,   // RFC 9211:  'ExampleCache; hit; ttl=545' → [{ cache, hit, ttl, ... }]
+  serializeCacheStatus,
+  parseAcceptCH,      // RFC 8942:  "Sec-CH-UA-Platform, Device-Memory" → ["Sec-CH-UA-Platform", ...]
+  parseSecCHUA,       // UA Client Hints: '"Chromium";v="112"' → [{ brand, version }]
+  parseNoVarySearch,  // HTML spec: 'params, except=("q")' → { keyOrder, params, except }
+} from "http-fields/headers";
+
+parsePriority("u=2, i");
+// → { urgency: 2, incremental: true }
+
+parseCacheStatus('OriginCache; fwd=stale; fwd-status=304, CDN; hit; ttl=545');
+// → [
+//     { cache: "OriginCache", hit: false, stored: false, collapsed: false, fwd: "stale", fwdStatus: 304 },
+//     { cache: "CDN", hit: true, stored: false, collapsed: false, ttl: 545 },
+//   ]
+```
+
+All helpers throw on syntactically invalid Structured Field Values (same
+strict behavior as `parse()`); semantically out-of-spec members are ignored
+per each header's RFC (e.g. a Priority urgency outside 0–7 falls back to the
+default 3).
+
 ## Examples
 
 ### Working with Lists
