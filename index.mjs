@@ -295,10 +295,9 @@ const parseNumber = (input) => {
     type = "decimal";
     input.shift(); // consume '.'
 
-    // RFC 8941: Reject decimal numbers with excessive leading zeros
-    // "000000000000000.0" should fail (15 zeros + decimal)
-    if (num.length >= 15 && num === "0".repeat(15)) {
-      throw new Error("Too many leading zeros in decimal number");
+    // RFC 8941 §4.2.4: a decimal's integer component is limited to 12 digits
+    if (num.length > 12) {
+      throw new Error("Decimal integer component too long");
     }
 
     if (input.length === 0 || !isDigit(input[0])) {
@@ -329,8 +328,13 @@ const parseNumber = (input) => {
     if (Math.abs(value) >= 1000000000000) {
       throw new Error("Decimal out of range");
     }
-    // Normalize -0 to 0 as per RFC 8941
-    return value === 0 ? 0 : value;
+    const normalized = value === 0 ? 0 : value;
+    // Whole-valued decimals ("1.0") are indistinguishable from integers as
+    // plain JS numbers, so wrap them to preserve the type for serialization
+    if (Number.isInteger(normalized)) {
+      return { type: "decimal", value: normalized };
+    }
+    return normalized;
   }
 };
 
@@ -599,6 +603,44 @@ const serializeItem = (value, params = {}) => {
   return serializeBareItem(value) + serializeParameters(params);
 };
 
+// RFC 8941 §4.1.5: serialize a decimal, rounding to three fractional digits
+// with round-half-to-even, always keeping at least one fractional digit.
+const serializeDecimal = (value) => {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    throw new Error("Decimal value must be a finite number");
+  }
+  const sign = value < 0 ? "-" : "";
+  const abs = Math.abs(value);
+
+  // Work on the decimal string representation to avoid binary float artifacts
+  let str = String(abs);
+  if (str.includes("e") || str.includes("E")) {
+    str = abs.toFixed(20);
+  }
+  const [intPart, fracPart = ""] = str.split(".");
+  const frac = fracPart.padEnd(4, "0");
+
+  // Thousandths as an integer, then decide rounding from the remainder digits
+  let thousandths = BigInt(intPart + frac.slice(0, 3));
+  const rest = frac.slice(3).replace(/0+$/, "");
+  if (rest !== "") {
+    if (rest[0] > "5" || (rest[0] === "5" && rest.length > 1)) {
+      thousandths += 1n; // more than half: round up
+    } else if (rest === "5") {
+      if (thousandths % 2n === 1n) thousandths += 1n; // exactly half: to even
+    }
+    // less than half: truncate (already done)
+  }
+
+  const digits = thousandths.toString().padStart(4, "0");
+  const outInt = digits.slice(0, -3);
+  if (outInt.length > 12) {
+    throw new Error("Decimal out of serializable range");
+  }
+  const outFrac = digits.slice(-3).replace(/0+$/, "") || "0";
+  return `${sign}${outInt}.${outFrac}`;
+};
+
 const serializeBareItem = (item) => {
   if (typeof item === "number") {
     if (Number.isInteger(item)) {
@@ -608,13 +650,7 @@ const serializeBareItem = (item) => {
       }
       return item.toString();
     } else {
-      // Validate decimal range
-      if (Math.abs(item) >= 1000000000000) {
-        throw new Error("Decimal out of serializable range");
-      }
-      // Handle JavaScript rounding - use custom rounding to match RFC
-      const rounded = Math.round(item * 1000) / 1000;
-      return rounded.toFixed(3).replace(/\.?0+$/, "");
+      return serializeDecimal(item);
     }
   } else if (typeof item === "string") {
     // Validate string doesn't contain control characters that aren't properly escapable
@@ -659,6 +695,8 @@ const serializeBareItem = (item) => {
     }
 
     return tokenValue;
+  } else if (item && item.type === "decimal") {
+    return serializeDecimal(item.value);
   } else if (item && item.type === "binary") {
     return `:${item.value}:`;
   } else if (item && item.type === "date") {
@@ -768,6 +806,15 @@ export const serialize = (data, fieldType) => {
  * @returns {{type: 'token', value: string}} Token object
  */
 export const token = (value) => ({ type: "token", value });
+
+/**
+ * Create a decimal value. Needed for whole-valued decimals (e.g. 1.0), which
+ * are indistinguishable from integers as plain JS numbers; fractional numbers
+ * may be passed as plain numbers instead.
+ * @param {number} value - Numeric value to serialize as an RFC 8941 decimal
+ * @returns {{type: 'decimal', value: number}} Decimal object
+ */
+export const decimal = (value) => ({ type: "decimal", value });
 
 /**
  * Create a binary value

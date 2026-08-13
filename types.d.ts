@@ -1,6 +1,5 @@
 // Type definitions for http-fields
-// Project: https://github.com/yourusername/http-fields
-// Definitions by: [Your Name] <[your-email]>
+// Project: https://github.com/johnhenry/http-fields
 
 export type FieldType = "list" | "dictionary" | "item";
 
@@ -10,6 +9,7 @@ export type BareItemValue =
   | string
   | boolean
   | TokenValue
+  | DecimalValue
   | BinaryValue
   | DateValue
   | DisplayStringValue;
@@ -18,6 +18,11 @@ export type BareItemValue =
 export interface TokenValue {
   type: "token";
   value: string;
+}
+
+export interface DecimalValue {
+  type: "decimal";
+  value: number;
 }
 
 export interface BinaryValue {
@@ -93,6 +98,14 @@ export interface HTTPFieldsAPI {
   token(value: string): TokenValue;
 
   /**
+   * Create a decimal value. Needed for whole-valued decimals (e.g. 1.0),
+   * which are indistinguishable from integers as plain JS numbers.
+   * @param value Numeric value to serialize as an RFC 8941 decimal
+   * @returns Decimal object
+   */
+  decimal(value: number): DecimalValue;
+
+  /**
    * Create a binary value
    * @param base64Value Base64 encoded string
    * @returns Binary object
@@ -118,6 +131,7 @@ export interface HTTPFieldsAPI {
 export declare const parse: HTTPFieldsAPI['parse'];
 export declare const serialize: HTTPFieldsAPI['serialize']; 
 export declare const token: HTTPFieldsAPI['token'];
+export declare const decimal: HTTPFieldsAPI['decimal'];
 export declare const binary: HTTPFieldsAPI['binary'];
 export declare const date: HTTPFieldsAPI['date'];
 export declare const displayString: HTTPFieldsAPI['displayString'];

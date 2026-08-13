@@ -20,6 +20,42 @@ describe("RFC 8941 Structured Fields", () => {
       assert.deepStrictEqual(dec2, { value: -2.5, parameters: {} });
     });
 
+    test("should preserve whole-valued decimals across round-trips", () => {
+      const dec = HTTPFields.parse("1.0", "item");
+      assert.deepStrictEqual(dec, {
+        value: { type: "decimal", value: 1 },
+        parameters: {},
+      });
+      assert.strictEqual(HTTPFields.serialize(dec, "item"), "1.0");
+      assert.strictEqual(
+        HTTPFields.serialize(
+          { value: HTTPFields.decimal(10), parameters: {} },
+          "item"
+        ),
+        "10.0"
+      );
+    });
+
+    test("should round decimals half-to-even at three fractional digits", () => {
+      const ser = (n) =>
+        HTTPFields.serialize({ value: n, parameters: {} }, "item");
+      assert.strictEqual(ser(0.0025), "0.002");
+      assert.strictEqual(ser(-0.0025), "-0.002");
+      assert.strictEqual(ser(0.0035), "0.004");
+      assert.strictEqual(ser(9.9995), "10.0");
+      assert.strictEqual(ser(0.0001), "0.0");
+    });
+
+    test("should reject decimals with more than 12 integer digits", () => {
+      assert.throws(() => HTTPFields.parse("1234567890123.0", "item"));
+      assert.throws(() => HTTPFields.parse("00000000000000.0", "item"));
+      // 12 digits is fine
+      assert.deepStrictEqual(HTTPFields.parse("123456789012.1", "item"), {
+        value: 123456789012.1,
+        parameters: {},
+      });
+    });
+
     test("should parse strings", () => {
       const str1 = HTTPFields.parse('"hello world"', "item");
       assert.deepStrictEqual(str1, { value: "hello world", parameters: {} });
