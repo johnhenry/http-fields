@@ -34,6 +34,12 @@ export interface BinaryValue {
 export interface DateValue {
   type: "date";
   value: Date;
+  /**
+   * Exact timestamp in seconds. Always valid, even when the timestamp is
+   * outside the range a JavaScript Date can represent (value is then an
+   * Invalid Date).
+   */
+  seconds?: number;
 }
 
 export interface DisplayStringValue {

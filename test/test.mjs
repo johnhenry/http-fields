@@ -79,6 +79,29 @@ describe("RFC 8941 Structured Fields", () => {
       );
     });
 
+    test("should parse dates across the full RFC 9651 range", () => {
+      // Last second of year 9999
+      const d = HTTPFields.parse("@253402300799", "item");
+      assert.strictEqual(d.value.value.toISOString(), "9999-12-31T23:59:59.000Z");
+      assert.strictEqual(d.value.seconds, 253402300799);
+      assert.strictEqual(HTTPFields.serialize(d, "item"), "@253402300799");
+      // Full syntactic range (15-digit integers) round-trips via `seconds`,
+      // even beyond what a JS Date can represent
+      const max = HTTPFields.parse("@999999999999999", "item");
+      assert.strictEqual(max.value.seconds, 999999999999999);
+      assert.strictEqual(HTTPFields.serialize(max, "item"), "@999999999999999");
+      const min = HTTPFields.parse("@-999999999999999", "item");
+      assert.strictEqual(HTTPFields.serialize(min, "item"), "@-999999999999999");
+      // date() helper carries seconds too
+      assert.strictEqual(
+        HTTPFields.serialize(
+          { value: HTTPFields.date(new Date(1659578233000)), parameters: {} },
+          "item"
+        ),
+        "@1659578233"
+      );
+    });
+
     test("should reject decimals with more than 12 integer digits", () => {
       assert.throws(() => HTTPFields.parse("1234567890123.0", "item"));
       assert.throws(() => HTTPFields.parse("00000000000000.0", "item"));
@@ -304,7 +327,11 @@ describe("RFC 8941 Structured Fields", () => {
     test("should create date objects", () => {
       const date = new Date("2023-01-15T10:30:00Z");
       const dateObj = HTTPFields.date(date);
-      assert.deepStrictEqual(dateObj, { type: "date", value: date });
+      assert.deepStrictEqual(dateObj, {
+        type: "date",
+        value: date,
+        seconds: Math.floor(date.getTime() / 1000),
+      });
     });
 
     test("should create display string objects", () => {
@@ -357,14 +384,8 @@ describe("RFC 8941 Structured Fields", () => {
           () => HTTPFields.parse("@1.5", "item"),
           /Date timestamp must be an integer/
         );
-        assert.throws(
-          () => HTTPFields.parse("@999999999999999", "item"),
-          /Date out of supported range/
-        );
-        assert.throws(
-          () => HTTPFields.parse("@-99999999999999", "item"),
-          /Date out of supported range/
-        );
+        // 16 digits exceeds the RFC integer bound
+        assert.throws(() => HTTPFields.parse("@9999999999999999", "item"));
       });
     });
 

@@ -94,6 +94,8 @@ function convertParams(params) {
 function unwrapDecimals(node) {
   if (!node || typeof node !== "object") return node;
   if (node.type === "decimal") return node.value;
+  // Drop the auxiliary `seconds` field so dates compare by value only
+  if (node.type === "date") return { type: "date", value: node.value };
   if (Array.isArray(node)) return node.map(unwrapDecimals);
   if (node instanceof Date) return node;
   const out = {};
