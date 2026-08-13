@@ -46,6 +46,39 @@ describe("RFC 8941 Structured Fields", () => {
       assert.strictEqual(ser(0.0001), "0.0");
     });
 
+    test("should canonicalize non-canonical base64 in binary values", () => {
+      // missing padding
+      const b1 = HTTPFields.parse(":aGVsbG8:", "item");
+      assert.strictEqual(b1.value.value, "aGVsbG8=");
+      assert.strictEqual(HTTPFields.serialize(b1, "item"), ":aGVsbG8=:");
+      // non-zero pad bits
+      const b2 = HTTPFields.parse(":iZ==:", "item");
+      assert.strictEqual(HTTPFields.serialize(b2, "item"), ":iQ==:");
+      // user-supplied non-canonical base64
+      assert.strictEqual(
+        HTTPFields.serialize(
+          { value: HTTPFields.binary("aGVsbG8"), parameters: {} },
+          "item"
+        ),
+        ":aGVsbG8=:"
+      );
+    });
+
+    test("should serialize tokens containing ':' and '/'", () => {
+      const list = HTTPFields.parse("text/html;q=1.0, */*;q=0.8", "list");
+      assert.strictEqual(
+        HTTPFields.serialize(list, "list"),
+        "text/html;q=1.0, */*;q=0.8"
+      );
+      assert.strictEqual(
+        HTTPFields.serialize(
+          { value: HTTPFields.token("foo:bar/baz"), parameters: {} },
+          "item"
+        ),
+        "foo:bar/baz"
+      );
+    });
+
     test("should reject decimals with more than 12 integer digits", () => {
       assert.throws(() => HTTPFields.parse("1234567890123.0", "item"));
       assert.throws(() => HTTPFields.parse("00000000000000.0", "item"));

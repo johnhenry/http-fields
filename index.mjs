@@ -422,7 +422,9 @@ const parseBinary = (input) => {
 
   try {
     const decoded = atob(encoded);
-    return { type: "binary", value: encoded, decoded };
+    // RFC 8941 §4.2.7: the parsed value is the decoded byte sequence, so
+    // re-encode to canonical base64 (fixes missing padding, non-zero pad bits)
+    return { type: "binary", value: btoa(decoded), decoded };
   } catch (e) {
     throw new Error("Invalid base64 encoding");
   }
@@ -681,10 +683,10 @@ const serializeBareItem = (item) => {
       throw new Error('Token must start with alphabetic character or "*"');
     }
 
-    // Check all characters
+    // Check all characters (RFC 8941 §3.3.4: tchar plus ":" and "/")
     for (let i = 0; i < tokenValue.length; i++) {
       const char = tokenValue[i];
-      if (!isTchar(char)) {
+      if (!isTchar(char) && char !== ":" && char !== "/") {
         throw new Error(
           `Invalid character in token: "${char}" (0x${char
             .charCodeAt(0)
@@ -698,7 +700,14 @@ const serializeBareItem = (item) => {
   } else if (item && item.type === "decimal") {
     return serializeDecimal(item.value);
   } else if (item && item.type === "binary") {
-    return `:${item.value}:`;
+    // Re-encode so user-supplied non-canonical base64 serializes canonically
+    let canonical;
+    try {
+      canonical = btoa(atob(item.value));
+    } catch (e) {
+      throw new Error("Invalid base64 in binary value");
+    }
+    return `:${canonical}:`;
   } else if (item && item.type === "date") {
     const timestamp = Math.floor(item.value.getTime() / 1000);
     return `@${timestamp}`;
