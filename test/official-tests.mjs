@@ -88,7 +88,21 @@ function convertParams(params) {
 }
 
 // Normalize our result format to match official test expectations
+// Whole-valued decimals parse to {type: "decimal", value} wrappers so that
+// serialization can preserve the decimal point; official expected values are
+// plain numbers, so unwrap them before comparison.
+function unwrapDecimals(node) {
+  if (!node || typeof node !== "object") return node;
+  if (node.type === "decimal") return node.value;
+  if (Array.isArray(node)) return node.map(unwrapDecimals);
+  if (node instanceof Date) return node;
+  const out = {};
+  for (const [k, v] of Object.entries(node)) out[k] = unwrapDecimals(v);
+  return out;
+}
+
 function normalizeForComparison(result, headerType) {
+  result = unwrapDecimals(result);
   if (headerType === "item") {
     return normalizeValue(result);
   } else if (headerType === "list") {
