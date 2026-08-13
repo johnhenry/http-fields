@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0] - 2026-08-13
+
+### Added
+
+- **`http-fields/headers` subpath**: semantic helpers for real headers built
+  on Structured Field Values — `parsePriority`/`serializePriority`
+  (RFC 9218), `parseCacheStatus`/`serializeCacheStatus` (RFC 9211),
+  `parseAcceptCH` (RFC 8942), `parseSecCHUA` (UA Client Hints), and
+  `parseNoVarySearch` (HTML spec), with TypeScript declarations
+
 ## [0.0.5] - 2026-08-13
 
 ### Fixed
