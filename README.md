@@ -150,6 +150,25 @@ Creates a token object for use in structured data.
 const tokenObj = HTTPFields.token("application/json");
 ```
 
+#### `decimal(value)`
+
+Creates a decimal object. Needed for whole-valued decimals (e.g. `1.0`), which
+are indistinguishable from integers as plain JavaScript numbers; fractional
+numbers can be passed as plain numbers instead. Parsed whole-valued decimals
+are returned in this form so round-trips preserve the decimal point.
+
+**Parameters:**
+
+- `value` (number): The numeric value to serialize as an RFC 8941 decimal
+
+**Returns:** Decimal object `{ type: 'decimal', value: number }`
+
+**Example:**
+
+```javascript
+const decimalObj = HTTPFields.decimal(10); // serializes as "10.0"
+```
+
 #### `binary(base64Value)`
 
 Creates a binary object for use in structured data.
@@ -847,14 +866,11 @@ Supports all modern browsers and Node.js environments.
 Run the comprehensive test suite:
 
 ```bash
-# Run custom tests (47 tests covering all features)
+# Run the full suite (custom + official HTTP WG vectors)
 npm test
 
-# Run official HTTP Working Group tests (168 tests - ALL PASSING! ✅)
+# Run only the official HTTP Working Group tests
 npm run test:official
-
-# Run all tests
-npm run test:all
 
 # Run tests with coverage
 npm run test:coverage
@@ -862,11 +878,11 @@ npm run test:coverage
 
 **Test Results:**
 
-- ✅ **Custom tests**: 47/47 passing  
-- ✅ **Official HTTP WG tests**: 1711/1711 passing
-- ✅ **Total**: 1758 tests passing
+- ✅ **2189 tests passing**, including the complete official
+  [httpwg/structured-field-tests](https://github.com/httpwg/structured-field-tests)
+  suite with canonical round-trip serialization checks enforced.
 
-Our implementation now passes the same official test suite used by badgateway/structured-headers while maintaining our developer-friendly API.
+Our implementation passes the same official test suite used by badgateway/structured-headers while maintaining our developer-friendly API.
 
 ## Contributing
 

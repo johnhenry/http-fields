@@ -269,7 +269,7 @@ const performanceHints = [
   {
     value: HTTPFields.token("connection"),
     parameters: {
-      type: HTTPFields.token("4g"),
+      type: "4g",
       bandwidth: 15000000,
       latency: 45,
     },

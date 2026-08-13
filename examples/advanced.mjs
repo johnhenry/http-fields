@@ -174,7 +174,7 @@ console.log("## Example 4: CDN Content Delivery Optimization\n");
 
 const clientProfile = {
   connection: {
-    value: HTTPFields.token("4g"),
+    value: "4g",
     parameters: {
       bandwidth: 15000000,
       latency: 45,
