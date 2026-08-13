@@ -4,8 +4,10 @@
   "description": "Modern JavaScript library for parsing and serializing HTTP Structured Field Values (RFC 8941 & RFC 9651)",
   "main": "index.mjs",
   "type": "module",
+  "types": "./types.d.ts",
   "exports": {
     ".": {
+      "types": "./types.d.ts",
       "import": "./index.mjs"
     }
   },
@@ -17,7 +19,6 @@
     "test:base32": "node --test test/base32.mjs",
     "test:watch": "node --test --watch test/*.mjs",
     "test:coverage": "node --test --experimental-test-coverage test/*.mjs",
-    "build": "node scripts/build.mjs",
     "lint": "eslint *.mjs test/*.mjs",
     "format": "prettier --write *.mjs test/*.mjs",
     "example": "node examples/index.mjs"
@@ -37,24 +38,24 @@
     "typescript",
     "zero-dependencies"
   ],
-  "author": "Your Name",
+  "author": "John Henry <john@iamjohnhenry.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johnhenryusername/http-fields.git"
+    "url": "git+https://github.com/johnhenry/http-fields.git"
   },
   "bugs": {
-    "url": "https://github.com/johnhenryusername/http-fields/issues"
+    "url": "https://github.com/johnhenry/http-fields/issues"
   },
-  "homepage": "https://github.com/johnhenryusername/http-fields#readme",
+  "homepage": "https://github.com/johnhenry/http-fields#readme",
   "files": [
     "index.mjs",
-    "index.cjs",
+    "types.d.ts",
     "README.md",
     "LICENSE"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "devDependencies": {
     "eslint": "^8.0.0",
