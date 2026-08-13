@@ -133,10 +133,18 @@ function runSerializationTestSuite(filename, suiteName) {
                 dataToSerialize,
                 headerType
               );
-              assert.ok(
-                serialized,
-                "Serialization should produce valid result"
-              );
+              if (testCase.canonical) {
+                assert.strictEqual(
+                  serialized,
+                  testCase.canonical.join(", "),
+                  "Serialized output should match the canonical form"
+                );
+              } else {
+                assert.ok(
+                  serialized,
+                  "Serialization should produce valid result"
+                );
+              }
             } catch (error) {
               throw new Error(`Failed to serialize data: ${error.message}`);
             }

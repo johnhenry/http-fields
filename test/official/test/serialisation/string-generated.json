@@ -74,7 +74,7 @@
     {
         "name": "0x08 in string - serialise only",
         "expected": [
-            "\u0008",
+            "\b",
             []
         ],
         "header_type": "item",
@@ -83,7 +83,7 @@
     {
         "name": "0x09 in string - serialise only",
         "expected": [
-            "\u0009",
+            "\t",
             []
         ],
         "header_type": "item",
@@ -92,7 +92,7 @@
     {
         "name": "0x0a in string - serialise only",
         "expected": [
-            "\u000a",
+            "\n",
             []
         ],
         "header_type": "item",
@@ -110,7 +110,7 @@
     {
         "name": "0x0c in string - serialise only",
         "expected": [
-            "\u000c",
+            "\f",
             []
         ],
         "header_type": "item",
@@ -119,7 +119,7 @@
     {
         "name": "0x0d in string - serialise only",
         "expected": [
-            "\u000d",
+            "\r",
             []
         ],
         "header_type": "item",
