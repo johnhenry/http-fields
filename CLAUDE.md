@@ -17,15 +17,7 @@ npm run test:watch
 
 # Run tests with coverage
 npm run test:coverage
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
 ```
-
-**Note**: The build script references `scripts/build.mjs` which doesn't exist. The lint and format commands require ESLint and Prettier configs to be added.
 
 ## Architecture Overview
 
@@ -56,11 +48,9 @@ Tests use Node.js built-in test runner and cover:
 - RFC 9651 features (dates and display strings)
 
 **Test Commands:**
-- Run custom tests: `npm test` (47 tests)
-- Run official HTTP WG tests: `npm run test:official` (168 tests - ALL PASSING!)
-- Run all tests: `npm run test:all` (215 total tests)
+- Run the full suite: `npm test`
+- Run only the official HTTP WG tests: `npm run test:official`
 - Run specific test: `node --test test/test.mjs -n "test name pattern"`
 
-**Test Results:** ✅ 215/215 tests passing (47 custom + 168 official)
-
-Our implementation now passes the complete official HTTP Working Group test suite while maintaining our developer-friendly API design.
+**Test Results:** ✅ 2189/2189 tests passing, including the complete official
+httpwg/structured-field-tests suite with canonical round-trip checks enforced.

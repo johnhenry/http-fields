@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2026-08-13
+
+### Fixed
+
+- **Decimals**: whole-valued decimals (`1.0`) now round-trip with their
+  decimal point preserved via a new `{ type: 'decimal', value }` wrapper and
+  `decimal()` helper; serialization rounds half-to-even at three fractional
+  digits per RFC 8941 §4.1.5 and always keeps one fractional digit; parsing
+  enforces the 12-digit integer-part limit for decimals
+- **Binary**: non-canonical base64 (missing padding, non-zero pad bits) is
+  re-encoded canonically on parse and serialization
+- **Tokens**: serializer now accepts `:` and `/` (RFC 8941 §3.3.4), matching
+  the parser
+- **Dates**: full RFC 9651 range supported; date values carry an exact
+  `seconds` field alongside the JS `Date`
+- **Packaging**: correct repository/homepage URLs; TypeScript declarations
+  shipped in the npm tarball (`types` field + exports condition); removed
+  nonexistent `index.cjs` from `files`; `engines` corrected to `>=16`
+
+### Changed
+
+- Official test harness enforces canonical round-trip serialization;
+  vendored httpwg/structured-field-tests vectors refreshed (2189 tests)
+- Removed broken `build`/`lint`/`format` scripts and unused ESLint/Prettier
+  devDependencies; added GitHub Actions CI
+
 ## [0.0.0] - 2025-01-06
 
 ### Initial Release
