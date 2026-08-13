@@ -14,7 +14,7 @@ differ in data model, conformance posture, and packaging.
 | **Dependencies** | Zero | Zero |
 | **Data model** | Plain JSON objects: `{value, parameters}` | RFC-shaped tuples: `[value, Map]`, with `Token`/`DisplayString` classes and `ArrayBuffer` binaries |
 | **API surface** | One `parse(value, type)` / `serialize(data, type)` pair + typed helpers | Per-type functions: `parseItem`, `parseList`, `parseDictionary`, ... |
-| **Conformance** | Full official httpwg suite **including canonical round-trip serialization** — 2214 tests, no skips | 2805 unit tests, mostly the official suite, **with the `1.0`-serialization tests skipped** (see below) |
+| **Conformance** | Full official httpwg suite **including canonical round-trip serialization** — 2214 tests, no skips | 2805 unit tests, mostly the official suite, **with the `1.0`-serialization tests skipped** (see below) [^counts] |
 | **Whole-number decimals** | `1.0` round-trips as `1.0` (via a `decimal` wrapper) | Serializes as `1` — their README: "No fix is planned" |
 | **Decimal rounding** | Round-half-to-even per RFC (`0.0025` → `0.002`) | Rounds `0.0025` → `0.003` — their README: fix intended |
 | **Module formats** | ESM only | ESM + CommonJS |
@@ -139,3 +139,14 @@ No-Vary-Search on top of the generic parser.
 Both are solid, zero-dependency implementations — this comparison reflects
 `structured-headers@2.0.3` and `http-fields@0.1.0` and may drift as either
 evolves.
+
+[^counts]: The raw totals count different things, so 2805 vs 2214 is not a
+    coverage gap. structured-headers registers each official vector as up to
+    *two* tests (a parse test and a serialize test); http-fields runs each
+    vector as *one* test that parses, compares the expected value, and
+    asserts canonical re-serialization in the same test body — plus its own
+    custom and header-helper tests. Both run the same official vector set.
+    Within structured-headers' serialize tests, a named skip list plus a
+    blanket skip of every test ending in "0 decimal" excludes the
+    whole-number-decimal and round-half-to-even vectors (registered, but
+    `skip()`ed); every http-fields test asserts.
