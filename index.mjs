@@ -464,12 +464,10 @@ const parseDate = (input) => {
     throw new Error("Date timestamp must be an integer");
   }
 
-  // Validate date range (years 1 to 9999)
-  if (timestamp < -62135596800 || timestamp > 253402214400) {
-    throw new Error("Date out of supported range");
-  }
-
-  return { type: "date", value: new Date(timestamp * 1000) };
+  // RFC 9651 places no range limit beyond the 15-digit integer bounds.
+  // `seconds` always holds the exact parsed timestamp; `value` is an Invalid
+  // Date when the timestamp exceeds what a JavaScript Date can represent.
+  return { type: "date", value: new Date(timestamp * 1000), seconds: timestamp };
 };
 
 // RFC 9651: Display String parsing
@@ -709,7 +707,16 @@ const serializeBareItem = (item) => {
     }
     return `:${canonical}:`;
   } else if (item && item.type === "date") {
-    const timestamp = Math.floor(item.value.getTime() / 1000);
+    const timestamp = Number.isInteger(item.seconds)
+      ? item.seconds
+      : Math.floor(item.value.getTime() / 1000);
+    if (
+      !Number.isInteger(timestamp) ||
+      timestamp < -999999999999999 ||
+      timestamp > 999999999999999
+    ) {
+      throw new Error("Date timestamp out of serializable range");
+    }
     return `@${timestamp}`;
   } else if (item && item.type === "displaystring") {
     // Encode as UTF-8 and percent-encode special characters
@@ -837,7 +844,11 @@ export const binary = (base64Value) => ({ type: "binary", value: base64Value });
  * @param {Date} dateValue - JavaScript Date object
  * @returns {{type: 'date', value: Date}} Date object
  */
-export const date = (dateValue) => ({ type: "date", value: dateValue });
+export const date = (dateValue) => ({
+  type: "date",
+  value: dateValue,
+  seconds: Math.floor(dateValue.getTime() / 1000),
+});
 
 /**
  * Create a display string value (RFC 9651)
