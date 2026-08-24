@@ -1,6 +1,6 @@
 {
   "name": "@johnhenry/http-fields",
-  "version": "0.2.0",
+  "version": "0.0.0",
   "description": "Modern JavaScript library for parsing and serializing HTTP Structured Field Values (RFC 8941 & RFC 9651)",
   "main": "index.mjs",
   "type": "module",

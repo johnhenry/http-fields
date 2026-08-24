@@ -1,21 +1,20 @@
 # Changelog
 
-## 0.2.0
+## 0.0.0
 
-- **Renamed: `http-fields` is now `@johnhenry/http-fields`.** Same library,
-  same API, same version line — new address. The unscoped name is deprecated
-  and will receive no further releases; update installs and imports:
+- **Renamed: `http-fields` is now `@johnhenry/http-fields`, restarting at
+  0.0.0.** Same library, same API — a new address and a new version era.
+  Previously published as `http-fields`, whose last unscoped release was
+  0.1.0; that name is deprecated and will receive no further releases.
 
   ```sh
   npm install @johnhenry/http-fields
   ```
 
-  Documentation now lives at https://opensource.johnhenry.me/http-fields/.
-
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+  Documentation: https://opensource.johnhenry.me/http-fields/. The 0.0.0 is
+  a deliberate restart on import into the @johnhenry family, not a maturity
+  signal — the code is the tested 0.1.x lineage (2,214 passing tests,
+  including the full official httpwg vector suite).
 
 ## [0.1.0] - 2026-08-13
 

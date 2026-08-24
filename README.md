@@ -1,5 +1,9 @@
 # http-fields
 
+> Previously published as `http-fields` (last unscoped release: 0.1.0, now
+> deprecated). The scoped package restarts its version line at 0.0.0 — a new
+> address and era, not a maturity signal.
+
 A modern JavaScript library for parsing and serializing HTTP Structured Field Values ([RFC 8941](https://www.rfc-editor.org/rfc/rfc8941.html) & [RFC 9651](https://www.rfc-editor.org/rfc/rfc9651.html)). Provides bidirectional translation between structured header strings and JSON with full TypeScript support.
 
 See also [badgateway/structured-headers](https://github.com/badgateway/structured-headers)
