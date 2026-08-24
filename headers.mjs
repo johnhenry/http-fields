@@ -1,9 +1,9 @@
 /**
  * Semantic helpers for specific HTTP headers built on Structured Field Values.
  *
- * The core module (`http-fields`) parses the generic RFC 8941/9651 grammar;
+ * The core module (`@johnhenry/http-fields`) parses the generic RFC 8941/9651 grammar;
  * this module maps the generic result into named, typed fields for real
- * headers — and back. Import via the `http-fields/headers` subpath.
+ * headers — and back. Import via the `@johnhenry/http-fields/headers` subpath.
  *
  * All parsers throw on syntactically invalid Structured Field Values (same
  * strict behavior as the core `parse()`). Where a header's spec defines

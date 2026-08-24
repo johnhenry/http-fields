@@ -19,7 +19,7 @@ differ in data model, conformance posture, and packaging.
 | **Decimal rounding** | Round-half-to-even per RFC (`0.0025` → `0.002`) | Rounds `0.0025` → `0.003` — their README: fix intended |
 | **Module formats** | ESM only | ESM + CommonJS |
 | **TypeScript** | Declarations shipped (`types.d.ts`) | TypeScript-first source |
-| **Semantic header helpers** | `http-fields/headers` subpath: Priority, Cache-Status, Accept-CH, Sec-CH-UA, No-Vary-Search | Not included |
+| **Semantic header helpers** | `@johnhenry/http-fields/headers` subpath: Priority, Cache-Status, Accept-CH, Sec-CH-UA, No-Vary-Search | Not included |
 | **Ecosystem** | Basis of [`http-fields-signatures`](https://github.com/johnhenry/http-fields-signatures) (RFC 9421) | Basis of [`http-message-signatures`](https://github.com/dhensby/node-http-message-signatures) |
 
 ## The conformance difference, concretely
@@ -50,7 +50,7 @@ whole-valued-decimal corner case.
 **http-fields** — one function, plain objects:
 
 ```javascript
-import { parse } from "http-fields";
+import { parse } from "@johnhenry/http-fields";
 
 parse('"Hello world"; a="5"', "item");
 // { value: "Hello world", parameters: { a: "5" } }
@@ -70,7 +70,7 @@ parseItem('"Hello world"; a="5"');
 **http-fields** — helper constructors, `{type, value}` wrappers:
 
 ```javascript
-import { token, binary, date, decimal, displayString } from "http-fields";
+import { token, binary, date, decimal, displayString } from "@johnhenry/http-fields";
 
 token("application/json");   // { type: "token", value: "application/json" }
 binary("SGVsbG8=");          // { type: "binary", value: "SGVsbG8=" }
@@ -96,7 +96,7 @@ new DisplayString("Fryslân");
 **http-fields:**
 
 ```javascript
-import { serialize, token } from "http-fields";
+import { serialize, token } from "@johnhenry/http-fields";
 
 serialize(
   {
@@ -133,7 +133,7 @@ Choose **http-fields** when you want **full canonical conformance with no
 skipped tests** (whole-number decimals, banker's rounding, canonical base64),
 **plain JSON data structures** that serialize/log/deep-equal naturally, a
 **single parse/serialize entry point**, or the **semantic header helpers**
-(`http-fields/headers`) for Priority, Cache-Status, Client Hints, and
+(`@johnhenry/http-fields/headers`) for Priority, Cache-Status, Client Hints, and
 No-Vary-Search on top of the generic parser.
 
 Both are solid, zero-dependency implementations — this comparison reflects

@@ -1,6 +1,6 @@
 {
-  "name": "http-fields",
-  "version": "0.1.0",
+  "name": "@johnhenry/http-fields",
+  "version": "0.2.0",
   "description": "Modern JavaScript library for parsing and serializing HTTP Structured Field Values (RFC 8941 & RFC 9651)",
   "main": "index.mjs",
   "type": "module",
@@ -49,7 +49,7 @@
   "bugs": {
     "url": "https://github.com/johnhenry/http-fields/issues"
   },
-  "homepage": "https://github.com/johnhenry/http-fields#readme",
+  "homepage": "https://opensource.johnhenry.me/http-fields/",
   "files": [
     "index.mjs",
     "types.d.ts",
