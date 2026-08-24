@@ -24,7 +24,7 @@ This library implements the complete RFC 8941 and RFC 9651 specifications with s
 ## Installation
 
 ```bash
-npm install http-fields
+npm install @johnhenry/http-fields
 ```
 
 Or include directly in your project:
@@ -38,7 +38,7 @@ import * as HTTPFields from "./index.mjs";
 ### JavaScript
 
 ```javascript
-import * as HTTPFields from "http-fields";
+import * as HTTPFields from "@johnhenry/http-fields";
 
 // Parse a list
 const list = HTTPFields.parse("sugar, tea, rum", "list");
@@ -57,8 +57,8 @@ console.log(serialized); // "sugar, tea, rum"
 ### TypeScript
 
 ```typescript
-import * as HTTPFields from "http-fields";
-import type { List, Dictionary, Item } from "http-fields/types";
+import * as HTTPFields from "@johnhenry/http-fields";
+import type { List, Dictionary, Item } from "@johnhenry/http-fields/types";
 
 // Parse with type safety
 const list: List = HTTPFields.parse("sugar, tea, rum", "list");
@@ -219,10 +219,10 @@ const displayObj = HTTPFields.displayString("Hello 世界");
 // Serializes to: %"Hello %e4%b8%96%e7%95%8c"
 ```
 
-## Header Helpers (`http-fields/headers`)
+## Header Helpers (`@johnhenry/http-fields/headers`)
 
 The core module parses the generic RFC 8941/9651 grammar; the
-`http-fields/headers` subpath maps that generic result into named, typed
+`@johnhenry/http-fields/headers` subpath maps that generic result into named, typed
 fields for real headers built on Structured Field Values — and back:
 
 ```javascript
@@ -234,7 +234,7 @@ import {
   parseAcceptCH,      // RFC 8942:  "Sec-CH-UA-Platform, Device-Memory" → ["Sec-CH-UA-Platform", ...]
   parseSecCHUA,       // UA Client Hints: '"Chromium";v="112"' → [{ brand, version }]
   parseNoVarySearch,  // HTML spec: 'params, except=("q")' → { keyOrder, params, except }
-} from "http-fields/headers";
+} from "@johnhenry/http-fields/headers";
 
 parsePriority("u=2, i");
 // → { urgency: 2, incremental: true }
@@ -547,7 +547,7 @@ createApiRequest("/api/users", {
 
 ```javascript
 import express from "express";
-import * as HTTPFields from "http-fields";
+import * as HTTPFields from "@johnhenry/http-fields";
 
 const app = express();
 

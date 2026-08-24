@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0
+
+- **Renamed: `http-fields` is now `@johnhenry/http-fields`.** Same library,
+  same API, same version line — new address. The unscoped name is deprecated
+  and will receive no further releases; update installs and imports:
+
+  ```sh
+  npm install @johnhenry/http-fields
+  ```
+
+  Documentation now lives at https://opensource.johnhenry.me/http-fields/.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),

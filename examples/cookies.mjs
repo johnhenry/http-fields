@@ -258,7 +258,7 @@ console.log("## Example 7: Server-Side Cookie Handling\n");
 
 console.log("**Express.js Middleware:**");
 console.log("```javascript");
-console.log('import HTTPFields from "http-fields";');
+console.log('import HTTPFields from "@johnhenry/http-fields";');
 console.log("");
 console.log("// Middleware to parse structured cookies");
 console.log("function parseStructuredCookies(req, res, next) {");

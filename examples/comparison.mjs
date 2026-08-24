@@ -13,7 +13,7 @@ console.log("**Input:** `" + headerValue + "`\n");
 
 console.log("**Our Implementation:**");
 console.log("```javascript");
-console.log('import HTTPFields from "http-fields";');
+console.log('import HTTPFields from "@johnhenry/http-fields";');
 console.log(
   "const result = HTTPFields.parse('" + headerValue + "', 'dictionary');"
 );
