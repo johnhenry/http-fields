@@ -1,5 +1,7 @@
 # http-fields
 
+Full documentation: [opensource.johnhenry.me/http-fields](https://opensource.johnhenry.me/http-fields/)
+
 > Previously published as `http-fields` (last unscoped release: 0.1.0, now
 > deprecated). The scoped package restarts its version line at 0.0.0 — a new
 > address and era, not a maturity signal.
