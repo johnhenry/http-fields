@@ -1,11 +1,12 @@
 # Changelog
 
-## 0.0.0
+## 0.0.0 — npm scope migration (2026-08-24)
 
 - **Renamed: `http-fields` is now `@johnhenry/http-fields`, restarting at
   0.0.0.** Same library, same API — a new address and a new version era.
   Previously published as `http-fields`, whose last unscoped release was
   0.1.0; that name is deprecated and will receive no further releases.
+  Fixed in `0d516a0` (#29), version restart in `2234e6d` (#30).
 
   ```sh
   npm install @johnhenry/http-fields
@@ -16,7 +17,7 @@
   signal — the code is the tested 0.1.x lineage (2,214 passing tests,
   including the full official httpwg vector suite).
 
-## [0.1.0] - 2026-08-13
+## 0.1.0 (2026-08-13)
 
 ### Added
 
@@ -26,7 +27,7 @@
   `parseAcceptCH` (RFC 8942), `parseSecCHUA` (UA Client Hints), and
   `parseNoVarySearch` (HTML spec), with TypeScript declarations
 
-## [0.0.5] - 2026-08-13
+## 0.0.5 (2026-08-13)
 
 ### Fixed
 
@@ -52,7 +53,7 @@
 - Removed broken `build`/`lint`/`format` scripts and unused ESLint/Prettier
   devDependencies; added GitHub Actions CI
 
-## [0.0.0] - 2025-01-06
+## 0.0.0 — initial unscoped release (2025-01-06)
 
 ### Initial Release
 
