@@ -1,5 +1,9 @@
 # http-fields
 
+[![npm version](https://img.shields.io/npm/v/%40johnhenry%2Fhttp-fields.svg)](https://www.npmjs.com/package/@johnhenry/http-fields)
+[![CI](https://github.com/johnhenry/http-fields/actions/workflows/test.yml/badge.svg)](https://github.com/johnhenry/http-fields/actions/workflows/test.yml)
+[![license](https://img.shields.io/npm/l/%40johnhenry%2Fhttp-fields.svg)](LICENSE)
+
 Full documentation: [opensource.johnhenry.me/http-fields](https://opensource.johnhenry.me/http-fields/)
 
 > Previously published as `http-fields` (last unscoped release: 0.1.0, now
@@ -8,7 +12,29 @@ Full documentation: [opensource.johnhenry.me/http-fields](https://opensource.joh
 
 A modern JavaScript library for parsing and serializing HTTP Structured Field Values ([RFC 8941](https://www.rfc-editor.org/rfc/rfc8941.html) & [RFC 9651](https://www.rfc-editor.org/rfc/rfc9651.html)). Provides bidirectional translation between structured header strings and JSON with full TypeScript support.
 
-See also [badgateway/structured-headers](https://github.com/badgateway/structured-headers)
+See also [badgateway/structured-headers](https://github.com/badgateway/structured-headers) — a comparison against it lives in [COMPARISON.md](./COMPARISON.md) and [`examples/06-comparison.mjs`](./examples/06-comparison.mjs).
+
+## Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Data Types](#data-types)
+- [API Reference](#api-reference)
+- [Header Helpers](#header-helpers-johnhenryhttp-fieldsheaders)
+- [Examples](#examples)
+- [Working with Standard Headers Object](#working-with-standard-headers-object)
+- [Error Handling](#error-handling)
+- [JSON Structure Format](#json-structure-format)
+- [Real-World Use Cases](#real-world-use-cases)
+- [Compliance and Testing](#compliance-and-testing)
+- [Browser Compatibility](#browser-compatibility)
+- [Testing](#testing)
+- [Family](#family)
+- [Contributing](#contributing)
+- [License](#license)
+- [References](#references)
 
 ## Overview
 
@@ -258,6 +284,11 @@ per each header's RFC (e.g. a Priority urgency outside 0–7 falls back to the
 default 3).
 
 ## Examples
+
+Runnable, numbered scripts live under [`examples/`](./examples) — see
+[`examples/README.md`](./examples/README.md) for what each one proves. Run
+them all with `npm run examples`, or one with `npm run example:01`. The
+inline snippets below are the same API, condensed for reading.
 
 ### Working with Lists
 
@@ -881,12 +912,28 @@ const metadata = HTTPFields.parse(
 
 This implementation follows RFC 8941 strictly and passes the community test suite available at [httpwg/structured-field-tests](https://github.com/httpwg/structured-field-tests).
 
-### Limitations
+### Honest limitations
 
-- Follows RFC 8941 size limits (15-digit integers, 3 decimal places, etc.)
-- ASCII-only strings (use Byte Sequences for Unicode)
-- Strict parsing - any malformed input fails completely
-- Parameter keys must be lowercase
+- **Numeric size limits follow RFC 8941 exactly, not JavaScript's native
+  range.** Integers are limited to 15 digits and decimals to 12 integer +
+  3 fractional digits (§4.1.4/§4.1.5) — well inside `Number.MAX_SAFE_INTEGER`,
+  but a value that's a perfectly valid JS number can still fail to parse or
+  serialize if it exceeds the spec's digit limits.
+- **Strings are ASCII-only; Unicode needs a different type.** `String` items
+  reject any non-ASCII character outright — there is no lossy fallback or
+  auto-escaping. Unicode content must use `displayString()` (RFC 9651's `%`
+  prefix) or `binary()`, not `String`.
+- **Parsing is strict, not lenient: one malformed field fails the whole
+  value, with no partial result.** This matches RFC 8941's error-handling
+  requirement (treat the field as absent on any parse error) rather than
+  the "skip the bad part, return what parsed" behavior some other structured
+  formats allow — callers must catch and treat the header as missing, not
+  expect a partially-populated structure back.
+- **Dictionary/parameter keys must already be lowercase.** The parser does
+  not case-fold keys for you (`serialize()` will happily round-trip a
+  lowercase key, but `parse("A=1", "dictionary")` treats `A` as invalid per
+  the grammar's `key` production) — normalize case before calling in if the
+  input source isn't guaranteed lowercase already.
 
 ## Browser Compatibility
 
@@ -921,6 +968,13 @@ npm run test:coverage
   suite with canonical round-trip serialization checks enforced.
 
 Our implementation passes the same official test suite used by badgateway/structured-headers while maintaining our developer-friendly API.
+
+## Family
+
+| HTTP concern | Library | Status |
+|---|---|---|
+| Structured Field Values (RFC 8941 & RFC 9651) | `@johnhenry/http-fields` (this package) | — |
+| Format conversion (HTTP string / HAR / cURL / fetch) | [`@johnhenry/http-converter`](https://github.com/johnhenry/http-converter) | published — sibling HTTP-spec library from the same author; no runtime dependency between them |
 
 ## Contributing
 
