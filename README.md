@@ -147,6 +147,30 @@ Parses a structured field string into a JSON representation.
 const result = HTTPFields.parse("a=1, b=2;x=y", "dictionary");
 ```
 
+#### `parseAuto(fieldValue)`
+
+Auto-detects a structured field's type and parses it, without you having to
+know in advance whether the value is a list, dictionary, or item. Tries
+`'dictionary'`, then `'item'`, then `'list'` (most restrictive to most
+permissive) and returns the first type that parses successfully.
+
+**Parameters:**
+
+- `fieldValue` (string): The HTTP field value to parse
+
+**Returns:** `{ value, type }`, where `value` is the parsed structure (as
+returned by `parse`) and `type` is the detected field type (`'list'`,
+`'dictionary'`, or `'item'`)
+
+**Throws:** `Error` if the value cannot be parsed as any structured field type
+
+**Example:**
+
+```javascript
+const result = HTTPFields.parseAuto("max-age=3600, private");
+// { value: { "max-age": { value: 3600, parameters: {} }, private: { value: true, parameters: {} } }, type: "dictionary" }
+```
+
 #### `serialize(data, fieldType)`
 
 Serializes a JSON structure back to a structured field string.
@@ -975,6 +999,11 @@ Our implementation passes the same official test suite used by badgateway/struct
 |---|---|---|
 | Structured Field Values (RFC 8941 & RFC 9651) | `@johnhenry/http-fields` (this package) | — |
 | Format conversion (HTTP string / HAR / cURL / fetch) | [`@johnhenry/http-converter`](https://github.com/johnhenry/http-converter) | published — sibling HTTP-spec library from the same author; no runtime dependency between them |
+
+**[`@johnhenry/prism`](https://github.com/johnhenry/prism)**, a live HTTP
+request inspector/proxy, uses `parseAuto` for its dashboard's per-header
+structured view. Porting it found `parseAuto` missing from this package
+(a real migration gap from before the `@johnhenry` scoping) and closed it.
 
 ## Contributing
 

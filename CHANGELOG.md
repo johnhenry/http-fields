@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- **Restored `parseAuto`**: auto-detects a structured field's type
+  (`'dictionary'`, `'item'`, or `'list'`) and parses it in one call. This
+  function existed in the old unscoped `http-fields` package but was
+  dropped during the @johnhenry scoping migration (0.0.0, 2026-08-24) — it
+  never got carried over into the new `index.mjs`. Discovered while porting
+  a downstream consumer app, `prism`, into the @johnhenry family; `prism`
+  imported `parseAuto` from `http-fields` and broke against the new
+  package. This closes that migration gap; no other exports were affected.
+
 ## 0.0.0 — npm scope migration (2026-08-24)
 
 - **Renamed: `http-fields` is now `@johnhenry/http-fields`, restarting at
