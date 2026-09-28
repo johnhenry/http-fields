@@ -74,6 +74,12 @@ export type ParseResult<T extends FieldType> = T extends "list"
   ? Item
   : never;
 
+// Result of auto-detecting a structured field's type while parsing it
+export type ParseAutoResult =
+  | { value: Dictionary; type: "dictionary" }
+  | { value: Item; type: "item" }
+  | { value: List; type: "list" };
+
 // Main HTTPFields interface
 export interface HTTPFieldsAPI {
   /**
@@ -84,6 +90,16 @@ export interface HTTPFieldsAPI {
    * @throws Error if parsing fails
    */
   parse<T extends FieldType>(fieldValue: string, fieldType: T): ParseResult<T>;
+
+  /**
+   * Auto-detect and parse a structured field value. Tries dictionary, item,
+   * then list (most restrictive to most permissive) and returns the first
+   * type that parses successfully.
+   * @param fieldValue The HTTP field value to parse
+   * @returns The parsed value along with the detected field type
+   * @throws Error if the value cannot be parsed as any structured field type
+   */
+  parseAuto(fieldValue: string): ParseAutoResult;
 
   /**
    * Serialize a JSON structure to a structured field string
@@ -135,7 +151,8 @@ export interface HTTPFieldsAPI {
 
 // Named exports for the main API functions
 export declare const parse: HTTPFieldsAPI['parse'];
-export declare const serialize: HTTPFieldsAPI['serialize']; 
+export declare const parseAuto: HTTPFieldsAPI['parseAuto'];
+export declare const serialize: HTTPFieldsAPI['serialize'];
 export declare const token: HTTPFieldsAPI['token'];
 export declare const decimal: HTTPFieldsAPI['decimal'];
 export declare const binary: HTTPFieldsAPI['binary'];

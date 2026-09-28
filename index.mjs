@@ -787,6 +787,21 @@ export const parse = (fieldValue, fieldType) => {
 };
 
 /**
+ * Auto-detect and parse a structured field value.
+ * Tries dictionary, item, then list (most restrictive to most permissive).
+ * @param {string} fieldValue - The HTTP field value
+ * @returns {{value: any, type: 'dictionary'|'item'|'list'}} Parsed value with detected type
+ */
+export const parseAuto = (fieldValue) => {
+  for (const type of ["dictionary", "item", "list"]) {
+    try {
+      return { value: parse(fieldValue, type), type };
+    } catch {}
+  }
+  throw new Error(`Could not parse as any structured field type: ${fieldValue}`);
+};
+
+/**
  * Serialize a JSON structure to a structured field string
  * @param {any} data - The data structure to serialize
  * @param {'list'|'dictionary'|'item'} fieldType - Type: 'list', 'dictionary', or 'item'

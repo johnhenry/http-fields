@@ -492,6 +492,45 @@ describe("RFC 8941 Structured Fields", () => {
     });
   });
 
+  describe("parseAuto", () => {
+    test("should detect dictionary values", () => {
+      const result = HTTPFields.parseAuto("a=1, b=2");
+      assert.strictEqual(result.type, "dictionary");
+      assert.deepStrictEqual(result.value, {
+        a: { value: 1, parameters: {} },
+        b: { value: 2, parameters: {} },
+      });
+    });
+
+    test("should detect item values", () => {
+      const result = HTTPFields.parseAuto("42;foo=bar");
+      assert.strictEqual(result.type, "item");
+      assert.strictEqual(result.value.value, 42);
+      assert.deepStrictEqual(result.value.parameters.foo, {
+        type: "token",
+        value: "bar",
+      });
+    });
+
+    test("should detect list values", () => {
+      const result = HTTPFields.parseAuto("(a b), c");
+      assert.strictEqual(result.type, "list");
+      assert.ok(Array.isArray(result.value));
+    });
+
+    test("should prefer dictionary for ambiguous key=value", () => {
+      const result = HTTPFields.parseAuto("max-age=3600, private");
+      assert.strictEqual(result.type, "dictionary");
+    });
+
+    test("should throw for unparseable input", () => {
+      assert.throws(
+        () => HTTPFields.parseAuto("[invalid"),
+        /Could not parse as any structured field type/
+      );
+    });
+  });
+
   describe("Real-world examples", () => {
     test("should parse Cache-Control headers", () => {
       const cacheControl = HTTPFields.parse(
