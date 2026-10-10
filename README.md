@@ -1000,11 +1000,6 @@ Our implementation passes the same official test suite used by badgateway/struct
 | Structured Field Values (RFC 8941 & RFC 9651) | `@johnhenry/http-fields` (this package) | — |
 | Format conversion (HTTP string / HAR / cURL / fetch) | [`@johnhenry/http-converter`](https://github.com/johnhenry/http-converter) | published — sibling HTTP-spec library from the same author; no runtime dependency between them |
 
-**[`@johnhenry/prism`](https://github.com/johnhenry/prism)**, a live HTTP
-request inspector/proxy, uses `parseAuto` for its dashboard's per-header
-structured view. Porting it found `parseAuto` missing from this package
-(a real migration gap from before the `@johnhenry` scoping) and closed it.
-
 ## Contributing
 
 Contributions welcome! Please ensure:
